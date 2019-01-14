@@ -1,4 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead
+q# This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_162330) do
+ActiveRecord::Schema.define(version: 2019_01_14_165229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,8 +35,11 @@ ActiveRecord::Schema.define(version: 2019_01_14_162330) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "housing_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["housing_id"], name: "index_users_on_housing_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "users", "housings"
 end
