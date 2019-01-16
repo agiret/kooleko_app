@@ -1,7 +1,22 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<!--
+
+Si Visiteur (non connecté) Alors :
+  "Créer mon compte" + "Connexion" dans navbar
+
+Affichage = f (stade d'avancement onboarding user) :
+  Stade d'avancement onboarding :
+      1 - Compte validé
+      2 - Liaison ENEDIS Ok
+      3 - Profil complet
+
+Cas à prévoir :
+  Si onboarding_state == 1 : bloc avec bouton "Je partage mes données ENEDIS"
+  Si onboarding_state == 2 : formulaire "Profile" à compléter
+  Si onboarding_state == 3 : bloc "Dashboard"
+
+ -->
 <% if user_signed_in? == false %>
-  <%= link_to "Créer mon compte", new_user_registration_path %>
+  <%= render 'pages/banner' %>
 <% else %>
   <p>Hello <%= current_user.email %> !</p>
 <% end %>

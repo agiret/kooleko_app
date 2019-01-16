@@ -1,1 +1,14 @@
 // Specific CSS for your home-page
+.banner {
+  color: white;
+  background-color: $my-fresh;
+  text-align: center;
+  height: calc(100vh - 70px);
+  /* if you have a 70px navbar => height: calc(100vh - 70px); */
+  min-height: 350px;
+  background-size: cover !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // margin-top: -70px;
+}
