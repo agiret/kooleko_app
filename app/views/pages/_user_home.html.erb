@@ -1,5 +1,19 @@
+<% step = current_user.onboarding_step %>
 <div class="container">
   <p>Hello <%= current_user.email %> !</p>
-  <p>Dashboard...</p>
-  <p>Etape de configuration :<%= current_user.onboarding_step %></p>
+  <p>Etape de configuration : <%= step %></p>
+
+  <% if step == 1 %>
+    <!-- Bloc liaison ENEDIS -->
+    <p>* * * Bloc de connexion aux données ENEDIS * * *</p>
+  <% elsif  step == 2 %>
+    <!-- Bloc de validation du profil (avec " V Liaison avec ENEDIS Ok !" et "Valider" qui amène vers "validation pages#validation") -->
+    <p>* * * Bloc de validation du profil * * *</p>
+    <div class="btn btn-success">
+      <%= link_to "Valider", "#" %>
+    </div>
+  <% elsif step == 3 %>
+    <!-- Tableau de bord -->
+    <p>* * * Tableau de bord * * *</p>
+  <% end %>
 </div>
