@@ -1,0 +1,11 @@
+<div class="container">
+  <%= render 'shared/onboarding_steps' %>
+  <p>* * * Bloc de liaison aux données ENEDIS * * *</p>
+  <h2>Liaison avec ton compte ENEDIS</h2>
+  <p>C'est la seule étape un peu pénible : te relier à ton compte ENEDIS...</p>
+  <p>KOOLEKO -------> ENEDIS</p>
+  <!-- !! Voir pour passer le lien en variable / fichier data/parameters.yml -->
+  <%= link_to '#', class: "enedis-btn" do %>
+    <%= image_tag "je-partage-donnees-enedis.png", height: 75 %>
+  <% end %>
+</div>
