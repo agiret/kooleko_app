@@ -1,46 +1,49 @@
-.step {
-  color: $my-clean-d;
-}
-.step-on {
-  // font-weight: bolder;
-  color: $hight-gray;
-  .step-circle {
-    background-color: $my-fresh;
-  }
-}
-.step-ok {
-  color: $my-clean-d;
-}
-.step-circle {
-  border: 1px solid $my-fresh;
-  height: 30px;
-  width: 30px;
-  line-height: 30px;
-  border-radius: 50%;
-}
+// .step {
+//   color: $my-clean-d;
+// }
+// .step-on {
+//   // font-weight: bolder;
+//   color: $hight-gray;
+//   .step-circle {
+//     background-color: $my-fresh;
+//   }
+// }
+// .step-ok {
+//   color: $my-clean-d;
+// }
+// .step-circle {
+//   border: 1px solid $my-fresh;
+//   height: 30px;
+//   width: 30px;
+//   line-height: 30px;
+//   border-radius: 50%;
+// }
 
 // Avec li et progressbar :
 .progressbar {
   counter-reset: step;
+  color: $my-fresh;
   li {
     list-style-type: none;
     float: left;
     width: 33.33%;
     position: relative;
     text-align: center;
+    z-index: +2;
   }
   li:before {
     content: counter(step);
     counter-increment: step;
     width: 30px;
     height: 30px;
-    line-height: 30px;
+    line-height: 29px;
     border: 1px solid $my-fresh;
     display: block;
     text-align: center;
     margin: 0 auto 10px auto;
     border-radius: 50%;
     background-color: white;
+    z-index: +1;
   }
   li:after {
     content: '';
@@ -49,19 +52,22 @@
     height: 1px;
     background-color: $my-fresh;
     top: 15px;
-    left: -50%;
+    left: calc(-50% + 15px);
     z-index: -1;
   }
   li:first-child:after {
     content: none;
   }
   li.active {
-    color: $my-fresh;
+    // color: $my-fresh;
+    // font-weight: bolder;
   }
   li.active:before {
     border-color: $my-fresh;
+    background-color: $my-fresh;
+    color: white;
   }
   li.active + li:after {
-    background-color: $my-fresh;
+    // background-color: $my-fresh;
   }
 }
