@@ -24,7 +24,13 @@
 </div> -->
 
 <ul class="progressbar">
-  <li class="active">Liaison</li>
-  <li>Profil</li>
-  <li>Validation</li>
+  <li class= <%= "active" if current_user.onboarding_step >= 1%> >
+    Liaison
+  </li>
+  <li class= <%= "active" if current_user.onboarding_step >= 2%> >
+    Profil
+  </li>
+  <li class= <%= "active" if current_user.onboarding_step >= 3%> >
+    Validation
+  </li>
 </ul>

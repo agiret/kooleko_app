@@ -8,7 +8,9 @@
         <div class="row">
           <h2>Liaison avec ton compte ENEDIS</h2>
           <p>C'est la seule étape un peu pénible : te relier à ton compte ENEDIS...</p>
-          <p>KOOLEKO -------> ENEDIS</p>
+          <div id="img-kooleko-enedis" class="hidden-xs">
+            <%= image_tag "kooleko_to_enedis.png", height: 35 %>
+          </div>
           <!-- !! Voir pour passer le lien en variable / fichier data/parameters.yml -->
           <%= link_to '#', class: "enedis-btn" do %>
             <%= image_tag "je-partage-donnees-enedis.png", height: 75 %>

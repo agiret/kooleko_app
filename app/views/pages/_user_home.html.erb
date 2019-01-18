@@ -6,11 +6,7 @@
   <!-- Bloc liaison ENEDIS -->
   <%= render 'pages/enedis_link' %>
 <% elsif  step == 2 %>
-  <!-- Bloc de validation du profil (avec " V Liaison avec ENEDIS Ok !" et "Valider" qui amène vers "validation pages#validation") -->
-  <p>* * * Bloc de validation du profil * * *</p>
-  <div class="btn btn-success">
-    <%= link_to "Valider", "#" %>
-  </div>
+  <%= render 'pages/profil_validation' %>
 <% elsif step == 3 %>
   <!-- Tableau de bord -->
   <p>* * * Tableau de bord * * *</p>
