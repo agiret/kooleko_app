@@ -10,6 +10,9 @@ if (enedis_connect) {
         .then(response => response.text())
         .then((data) => {
           // Do something with the response
+          // const list = document.querySelector("#players");
+          // const element = list.querySelector(".red");
+          // console.log(element.innerText);
           console.log(data);
         });
   });
