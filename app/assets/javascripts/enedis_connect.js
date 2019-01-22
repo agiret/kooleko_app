@@ -1,4 +1,11 @@
-const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect'
+// ** APPEL DE CONSENTEMENT ** :
+
+// Associer "state" = identifiant du client dans notre DB
+// (avec dernier chiffre = numéro du client test enedis)
+    // ramener l'id du current_user
+
+// Requête :
+const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
 
 const enedis_connect = document.getElementById('enedis-btn')
 if (enedis_connect) {
@@ -10,10 +17,11 @@ if (enedis_connect) {
         .then(response => response.text())
         .then((data) => {
           // Do something with the response
-          // const list = document.querySelector("#players");
-          // const element = list.querySelector(".red");
-          // console.log(element.innerText);
-          console.log(data);
+          parser = new DOMParser();
+          doc = parser.parseFromString(data, "text/html");
+          console.log(doc.body);
+          const script = doc.querySelector("script");
+          console.log(script);
         });
   });
 }
