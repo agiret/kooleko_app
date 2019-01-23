@@ -3,7 +3,6 @@
 // Associer "state" = identifiant du client dans notre DB
 // (avec dernier chiffre = numéro du client test enedis)
     // ramener l'id du current_user
-
 // Requête :
 const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
   // essayer de juste lancer l'url > récupérer les params
@@ -17,6 +16,11 @@ if (enedis_connect) {
     fetch(link)
         // .then(response => console.log(response))
         .then(response => response.text())
+
+        // .then(function(response){
+          // console.log(response);
+        // });
+
         .then((data) => {
           // Do something with the response
           parser = new DOMParser();
@@ -24,8 +28,8 @@ if (enedis_connect) {
           console.log(doc.body);
           const script = doc.querySelector("script");
           console.log(script);
-          parseQueryString();
-          console.log(parmas);
+          // parseQueryString();
+          // console.log(parmas);
         });
   });
 };
