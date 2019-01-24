@@ -4,6 +4,8 @@
 // (avec dernier chiffre = numéro du client test enedis)
     // ramener l'id du current_user
 // Requête :
+// Comment envoyer une variable d'environnement au JS ??
+// console.log(process.env.ENEDIS_CLIENT_ID);
 const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
   // essayer de juste lancer l'url > récupérer les params
   // et revenir avec les données qu'il faut...
