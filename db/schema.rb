@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_105500) do
+ActiveRecord::Schema.define(version: 2019_01_28_105944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "housings", force: :cascade do |t|
-    t.string "pdl"
     t.string "address"
     t.integer "cp"
     t.string "city"
@@ -25,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_105500) do
     t.string "hot_water_system"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "enedis_usage_point_id"
   end
 
   create_table "users", force: :cascade do |t|
