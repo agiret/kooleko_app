@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_114826) do
+ActiveRecord::Schema.define(version: 2019_01_28_105500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,9 @@ ActiveRecord::Schema.define(version: 2019_01_16_114826) do
     t.datetime "updated_at", null: false
     t.bigint "housing_id"
     t.integer "onboarding_step"
+    t.integer "enedis_state"
+    t.string "enedis_access_token", default: "", null: false
+    t.string "enedis_refresh_token", default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["housing_id"], name: "index_users_on_housing_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
