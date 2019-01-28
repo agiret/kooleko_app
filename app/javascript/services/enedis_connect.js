@@ -35,3 +35,9 @@ if (enedis_connect) {
         });
   });
 };
+
+const consentCall = () => {
+  console.log("Appel de consentement");
+}
+
+export { consentCall };
