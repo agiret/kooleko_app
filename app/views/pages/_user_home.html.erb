@@ -1,13 +1,11 @@
-<% step = current_user.onboarding_step %>
 <p>Hello <%= current_user.email %> !</p>
-<p>onboarding_step : <%= step %></p>
-
+<p>onboarding_step : <%= @onboarding_step %></p>
+<!--
 <% if step == 1 %>
-  <!-- Bloc liaison ENEDIS -->
   <%= render 'pages/enedis_link' %>
 <% elsif  step == 2 %>
   <%= render 'pages/profil_validation' %>
 <% elsif step == 3 %>
-  <!-- Tableau de bord -->
   <p>* * * Tableau de bord * * *</p>
 <% end %>
+ -->
