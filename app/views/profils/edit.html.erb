@@ -1,2 +1,11 @@
-<h1>Profils#edit</h1>
-<p>Find me in app/views/profils/edit.html.erb</p>
+<p>onboarding_step : <%= @onboarding_step %></p>
+
+<% if @onboarding_step == 0 %>
+  <p>Attente de validation email</p>
+<% elsif @onboarding_step == 1 %>
+  <%= render 'profils/enedis_link' %>
+<% elsif @onboarding_step == 2 %>
+  <%= render 'profils/profil_validation' %>
+<% elsif @onboarding_step == 3 %>
+  <p>Profil complet</p>
+<% end %>
