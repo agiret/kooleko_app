@@ -3,6 +3,7 @@ class ProfilsController < ApplicationController
   before_action :set_profil, :set_onboarding_step, only: [:show, :edit, :update]
 
   def edit
+    @enedis_client_id = ENV['ENEDIS_CLIENT_ID']
   end
 
   def update

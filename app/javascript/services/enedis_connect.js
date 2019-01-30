@@ -15,26 +15,30 @@ const consentCall = () => {
   if (enedis_connect) {
     enedis_connect.addEventListener('click', function(event) {
       event.preventDefault(); // pour empécher de recharger la page
-      console.log("Hello de enedis_connect !");
+      console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
+      console.log("... Capter 'code' dans une variable");
+      console.log("...Enregistrer usage_point_id dans DB.users");
+      console.log("2 - Obtention jetons client (code, client_id_, client_secret) --> acces_token, refresh_token");
+      console.log("...Enregstrer access_token + refresh_token dans DB.users");
 
-      fetch(link)
-          // .then(response => console.log(response))
-          .then(response => response.text())
+    //   fetch(link)
+    //       // .then(response => console.log(response))
+    //       .then(response => response.text())
 
-          // .then(function(response){
-            // console.log(response);
-          // });
+    //       // .then(function(response){
+    //         // console.log(response);
+    //       // });
 
-          // .then((data) => {
-          //   // Do something with the response
-          //   parser = new DOMParser();
-          //   doc = parser.parseFromString(data, "text/html");
-          //   console.log(doc.body);
-          //   const script = doc.querySelector("script");
-          //   console.log(script);
-          //   // parseQueryString();
-          //   // console.log(parmas);
-          // });
+    //       // .then((data) => {
+    //       //   // Do something with the response
+    //       //   parser = new DOMParser();
+    //       //   doc = parser.parseFromString(data, "text/html");
+    //       //   console.log(doc.body);
+    //       //   const script = doc.querySelector("script");
+    //       //   console.log(script);
+    //       //   // parseQueryString();
+    //       //   // console.log(parmas);
+    //       // });
     });
   };
 }
