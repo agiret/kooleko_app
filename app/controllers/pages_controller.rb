@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:home]
+  before_action :set_profil, only: [:home]
 
   def home
     @onboarding_step = current_user.onboarding_step
@@ -12,5 +13,11 @@ class PagesController < ApplicationController
     elsif @onboarding_step == 3
       # Tableau de bord
     end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+  def set_profil
+    @profil = User.find(current_user.id)
   end
 end

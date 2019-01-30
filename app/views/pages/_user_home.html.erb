@@ -1,2 +1,6 @@
-<p>Hello <%= current_user.email %> !</p>
-<p>onboarding_step : <%= @onboarding_step %></p>
+
+<div class="container">
+  <p>Hello <%= current_user.email %> !</p>
+  <p>onboarding_step : <%= @onboarding_step %></p>
+  <%= link_to "Profil", edit_profil_path(@profil) %>
+</div>
