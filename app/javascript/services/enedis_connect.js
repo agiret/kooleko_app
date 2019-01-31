@@ -10,8 +10,8 @@ let usagePointId = usagePointId0;
     // requête AJAX en POST avec fetch
 
 const saveUsagePointId = (element) => {
-    date = element.dataset.dt;
-    fetch(`/flats/${flatId}/availabilities/`, {
+  date = element.dataset.dt;
+  fetch(`/flats/${flatId}/availabilities/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,20 +26,27 @@ const saveUsagePointId = (element) => {
     });
 }
 
-const addHousingToUser = (userId, usagePointId) => {
+const addHousingToUser = (usagePointId) => {
   console.log("0 - Créer un logement (Housing.new, Housing.save) et l'associer au User");
+  fetch('/housings/', {
+    method: 'POST',
+    body: JSON.stringify({enedis_usage_point_id: usagePointId}),
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': Rails.csrfToken()
+    },
+    credentials: 'same-origin'
+  }).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+    console.log(data);
+  });
 }
 
 
+// ** APPEL DE CONSENTEMENT ** :
 const consentCall = () => {
   console.log("Appel de consentement à faire");
-  // ** APPEL DE CONSENTEMENT ** :
-
-  // Associer "state" = identifiant du client dans notre DB
-  // (avec dernier chiffre = numéro du client test enedis)
-      // ramener l'id du current_user
-  // Requête :
-  // Comment envoyer une variable d'environnement au JS ??
   // console.log(process.env.ENEDIS_CLIENT_ID);
   const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
     // essayer de juste lancer l'url > récupérer les params
@@ -48,8 +55,8 @@ const consentCall = () => {
   if (enedis_connect) {
     enedis_connect.addEventListener('click', function(event) {
       event.preventDefault(); // pour empécher de recharger la page
-      const state = `${userId - 1}`
-      addHousingToUser(userId, usagePointId);
+      const state = `${userId - 1}` // en attendant mieux... et pour Clients test ENEDIS
+      addHousingToUser(usagePointId);
       console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
       console.log("... Capter 'code' dans une variable");
       console.log("... Enregistrer usage_point_id dans DB.housings");
