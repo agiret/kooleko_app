@@ -4,6 +4,7 @@ class ProfilsController < ApplicationController
 
   def edit
     @enedis_client_id = ENV['ENEDIS_CLIENT_ID']
+    @enedis_client_secret = ENV['ENEDIS_CLIENT_SECRET']
   end
 
   def update

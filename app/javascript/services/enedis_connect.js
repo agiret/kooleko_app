@@ -2,29 +2,38 @@
 const userId = document.querySelector("#consent").dataset.userid;
 const clientId = document.querySelector("#consent").dataset.cliid;
 // console.log(process.env.ENEDIS_CLIENT_ID);
-
+const clientSecret = document.querySelector("#consent").dataset.clisecret;
 
 // En attendant de les récupérer directement par une requête :
-const usagePointId0 = "12345";
-let usagePointId = usagePointId0;
+  const usagePointId0 = "12345";
+  const usagePointId = usagePointId0;
+  const code = "12345678";
 
 // *** FUNCTIONS ***
 
-const saveUsagePointId = (element) => {
-  date = element.dataset.dt;
-  fetch(`/flats/${flatId}/availabilities/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'X-CSRF-Token': Rails.csrfToken()
-    },
-    credentials: 'same-origin',
-    body: JSON.stringify({ availability: {start_time: date} })
-  })
-    .then(response => response.json())
-    .then((data) => {
-      updateAvailabilityHtml(element, true, data.id);
-    });
+const consentCall = () => {
+  const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
+  console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
+  console.log("... Capter 'code' dans une variable");
+  //   fetch(link)
+  //       // .then(response => console.log(response))
+  //       .then(response => response.text())
+
+  //       // .then(function(response){
+  //         // console.log(response);
+  //       // });
+
+  //       // .then((data) => {
+  //       //   // Do something with the response
+  //       //   parser = new DOMParser();
+  //       //   doc = parser.parseFromString(data, "text/html");
+  //       //   console.log(doc.body);
+  //       //   const script = doc.querySelector("script");
+  //       //   console.log(script);
+  //       //   // parseQueryString();
+  //       //   // console.log(parmas);
+  //       // });
+
 }
 
 const addHousingToUser = (usagePointId) => {
@@ -45,11 +54,31 @@ const addHousingToUser = (usagePointId) => {
   });
 }
 
-const consentCall = () => {
-  const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
-  console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
-  console.log("... Capter 'code' dans une variable");
+const getCustomerTokens = (code, clientId, clientSecret) => {
+  console.log("3 - Obtention jetons client (code, client_id_, client_secret) --> acces_token, refresh_token");
+  console.log("... Enregstrer access_token + refresh_token dans DB.users");
 
+  console.log(`code : ${code}`);
+  console.log(`client_id : ${clientId}`);
+  console.log(`clientSecret : ${clientSecret}`);
+  //   fetch(link)
+  //       // .then(response => console.log(response))
+  //       .then(response => response.text())
+
+  //       // .then(function(response){
+  //         // console.log(response);
+  //       // });
+
+  //       // .then((data) => {
+  //       //   // Do something with the response
+  //       //   parser = new DOMParser();
+  //       //   doc = parser.parseFromString(data, "text/html");
+  //       //   console.log(doc.body);
+  //       //   const script = doc.querySelector("script");
+  //       //   console.log(script);
+  //       //   // parseQueryString();
+  //       //   // console.log(parmas);
+  //       // });
 }
 
 // *** END FUNCTIONS ***
@@ -65,27 +94,7 @@ const enedisLink = () => {
       const state = `${userId - 1}` // en attendant mieux... et pour Clients test ENEDIS
       consentCall();
       addHousingToUser(usagePointId);
-      console.log("3 - Obtention jetons client (code, client_id_, client_secret) --> acces_token, refresh_token");
-      console.log("... Enregstrer access_token + refresh_token dans DB.users");
-
-    //   fetch(link)
-    //       // .then(response => console.log(response))
-    //       .then(response => response.text())
-
-    //       // .then(function(response){
-    //         // console.log(response);
-    //       // });
-
-    //       // .then((data) => {
-    //       //   // Do something with the response
-    //       //   parser = new DOMParser();
-    //       //   doc = parser.parseFromString(data, "text/html");
-    //       //   console.log(doc.body);
-    //       //   const script = doc.querySelector("script");
-    //       //   console.log(script);
-    //       //   // parseQueryString();
-    //       //   // console.log(parmas);
-    //       // });
+      getCustomerTokens(code, clientId, clientSecret);
     });
   };
 }
