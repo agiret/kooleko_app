@@ -1,26 +1,34 @@
-// Créer une const userId pour récupérer ça dans le HTMLCollection
+// Créer une const userId pour récupérer ça dans le HTML
+const userId = document.querySelector("#consent").dataset.userid;
+const clientId = document.querySelector("#consent").dataset.cliid;
+
+// En attendant de les récupérer directement par une requête :
+const usagePointId0 = "12345";
+let usagePointId = usagePointId0;
 
 // Créer une fonction saveUsagePointId(element) pour enregistrer réponse appel
     // requête AJAX en POST avec fetch
 
-// function saveUsagePointId(element) {
-//     date = element.dataset.dt;
-//     fetch(`/flats/${flatId}/availabilities/`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       'X-CSRF-Token': Rails.csrfToken()
-//     },
-//     credentials: 'same-origin',
-//     body: JSON.stringify({ availability: {start_time: date} })
-//   })
-//     .then(response => response.json())
-//     .then((data) => {
-//       updateAvailabilityHtml(element, true, data.id);
-//     });
-// }
+const saveUsagePointId = (element) => {
+    date = element.dataset.dt;
+    fetch(`/flats/${flatId}/availabilities/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'X-CSRF-Token': Rails.csrfToken()
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify({ availability: {start_time: date} })
+  })
+    .then(response => response.json())
+    .then((data) => {
+      updateAvailabilityHtml(element, true, data.id);
+    });
+}
 
-
+const addHousingToUser = (userId, usagePointId) => {
+  console.log("0 - Créer un logement (Housing.new, Housing.save) et l'associer au User");
+}
 
 
 const consentCall = () => {
@@ -40,9 +48,11 @@ const consentCall = () => {
   if (enedis_connect) {
     enedis_connect.addEventListener('click', function(event) {
       event.preventDefault(); // pour empécher de recharger la page
+      const state = `${userId - 1}`
+      addHousingToUser(userId, usagePointId);
       console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
       console.log("... Capter 'code' dans une variable");
-      console.log("... Enregistrer usage_point_id dans DB.users");
+      console.log("... Enregistrer usage_point_id dans DB.housings");
       // Appeler une fonction "saveUsagePointId"
       console.log("2 - Obtention jetons client (code, client_id_, client_secret) --> acces_token, refresh_token");
       console.log("... Enregstrer access_token + refresh_token dans DB.users");

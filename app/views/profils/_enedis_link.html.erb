@@ -12,7 +12,7 @@
             <%= image_tag "kooleko_to_enedis.png", height: 35 %>
           </div>
           <!-- !! Voir pour passer le lien en variable / fichier data/parameters.yml -->
-          <div data-cliid="<%= @enedis_client_id %>">
+          <div id="consent" data-userid="<%= @profil.id %>" data-cliid="<%= @enedis_client_id %>">
             <%= link_to '#', id: "enedis-btn" do %>
               <%= image_tag "je-partage-donnees-enedis.png", height: 75 %>
             <% end %>
