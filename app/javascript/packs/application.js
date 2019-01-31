@@ -1,4 +1,4 @@
 import "bootstrap";
-import { consentCall } from '../services/enedis_connect';
+import { enedisLink } from '../services/enedis_connect';
 
-consentCall();
+enedisLink();

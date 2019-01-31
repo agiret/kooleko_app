@@ -1,13 +1,14 @@
 // Créer une const userId pour récupérer ça dans le HTML
 const userId = document.querySelector("#consent").dataset.userid;
 const clientId = document.querySelector("#consent").dataset.cliid;
+// console.log(process.env.ENEDIS_CLIENT_ID);
+
 
 // En attendant de les récupérer directement par une requête :
 const usagePointId0 = "12345";
 let usagePointId = usagePointId0;
 
-// Créer une fonction saveUsagePointId(element) pour enregistrer réponse appel
-    // requête AJAX en POST avec fetch
+// *** FUNCTIONS ***
 
 const saveUsagePointId = (element) => {
   date = element.dataset.dt;
@@ -27,7 +28,8 @@ const saveUsagePointId = (element) => {
 }
 
 const addHousingToUser = (usagePointId) => {
-  console.log("0 - Créer un logement (Housing.new, Housing.save) et l'associer au User");
+  console.log("2 - Créer un logement (Housing.new, Housing.save) et l'associer au User");
+  console.log("... Enregistrer enedis_usage_point_id");
   fetch('/housings/', {
     method: 'POST',
     body: JSON.stringify({enedis_usage_point_id: usagePointId}),
@@ -43,25 +45,27 @@ const addHousingToUser = (usagePointId) => {
   });
 }
 
-
-// ** APPEL DE CONSENTEMENT ** :
 const consentCall = () => {
-  console.log("Appel de consentement à faire");
-  // console.log(process.env.ENEDIS_CLIENT_ID);
   const link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize?client_id=3d5cbbbb-fcf4-4c6a-8c86-f18a5ba156e9&state=fz80ac780&duration=P6M&response_type=code&redirect_uri=https://gw.hml.api.enedis.fr/redirect';
-    // essayer de juste lancer l'url > récupérer les params
-    // et revenir avec les données qu'il faut...
+  console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
+  console.log("... Capter 'code' dans une variable");
+
+}
+
+// *** END FUNCTIONS ***
+
+
+// ** LIAISON ENEDIS ** :
+const enedisLink = () => {
+  console.log("Appel de consentement à faire");
   const enedis_connect = document.getElementById('enedis-btn')
   if (enedis_connect) {
     enedis_connect.addEventListener('click', function(event) {
       event.preventDefault(); // pour empécher de recharger la page
       const state = `${userId - 1}` // en attendant mieux... et pour Clients test ENEDIS
+      consentCall();
       addHousingToUser(usagePointId);
-      console.log("1 - Demande de consentement (client_id, state) --> code, usage_point_id");
-      console.log("... Capter 'code' dans une variable");
-      console.log("... Enregistrer usage_point_id dans DB.housings");
-      // Appeler une fonction "saveUsagePointId"
-      console.log("2 - Obtention jetons client (code, client_id_, client_secret) --> acces_token, refresh_token");
+      console.log("3 - Obtention jetons client (code, client_id_, client_secret) --> acces_token, refresh_token");
       console.log("... Enregstrer access_token + refresh_token dans DB.users");
 
     //   fetch(link)
@@ -86,4 +90,4 @@ const consentCall = () => {
   };
 }
 
-export { consentCall };
+export { enedisLink };

@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   belongs_to :housings, required: false
+
+  validates :email, presence: true
 end

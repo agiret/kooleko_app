@@ -9,7 +9,7 @@ class HousingsController < ApplicationController
     # @housing.enedis_usage_point_id = params[:enedis_usage_point_id]
 
     if @housing.save
-      current_user.update(housing_id: @housing)
+      current_user.update(housing_id: @housing.id)
       redirect_to edit_profil_path(current_user)
     else
       puts "Problem : Housing not save"
