@@ -157,7 +157,41 @@ const refreshTokens = (refreshToken, clientId, clientSecret) => {
      //do something awesome that makes the world a better place
      console.log(response);
   });
+
+
+  // Test avec jQuery :
+  // $.ajax({
+  //   method: 'POST',
+  //   url: 'https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=https://gw.hml.api.enedis.fr/redirect',
+  //   dataType: 'jsonp', //change the datatype to 'jsonp' works in most cases
+  //   body: JSON.stringify({
+  //     refresh_token: refreshToken,
+  //     client_id: clientId,
+  //     client_secret: clientSecret
+  //     // grand_type: refresh_token
+  //   }),
+  //   success: (res) => {
+  //    console.log(res);
+  //   }
+  // })
 }
+
+const getIdentity = () => {
+  console.log("5 - Récupération Nom, Prénom client");
+  console.log("... Enregistrer ça dans table Users");
+}
+
+const getClientInfos = () => {
+  console.log("6 - Récupération email ?, N° tel client");
+  console.log("... Enregistrer ça dans table Users");
+}
+
+const getContractDatas = () => {
+  console.log("7 - Récupération des infos contrat (adresse, puissance...)");
+  console.log("... Enregistrer ça dans table Housings");
+  // redirection "naturelle" vers profils#edit après update dans housings#update ?;
+}
+
 // *** END FUNCTIONS ***
 
 
@@ -176,6 +210,9 @@ const enedisLink = () => {
       //Test :
       const refreshToken = "fUTh2rDVQimqjpwbuIcx84v8OGEO6l1nrUMBHbJpv5RxcR";
       refreshTokens(refreshToken, clientId, clientSecret);
+      getIdentity();
+      getClientInfos();
+      getContractDatas();
     });
   };
 };
