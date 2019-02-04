@@ -133,16 +133,16 @@ const getCustomerTokens = (code, clientId, clientSecret) => {
 const refreshTokens = (refreshToken, clientId, clientSecret) => {
   console.log("4 - Renouvellement jetons client (refresh_token, client_id_, client_secret) --> acces_token, refresh_token");
   console.log("... Enregistrer access_token + refresh_token dans DB.users");
-
-  fetch("https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=https://gw.hml.api.enedis.fr/redirect", {
+  console.log(proxyurl + "https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=https://gw.hml.api.enedis.fr/redirect");
+  fetch(proxyurl + "https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=https://gw.hml.api.enedis.fr/redirect", {
     method: "POST",
     // dataType: 'jsonp',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
-      // 'Access-Control-Allow-Origin': '*',
-      // 'Access-Control-Allow-Headers': 'Content-Type',
-      // 'Access-Control-Allow-Credentials': 'true'
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Credentials': 'true'
     },
 
     //make sure to serialize your JSON body
@@ -189,6 +189,7 @@ const getClientInfos = () => {
 const getContractDatas = () => {
   console.log("7 - Récupération des infos contrat (adresse, puissance...)");
   console.log("... Enregistrer ça dans table Housings");
+  console.log("... Update onboarding_step to = 2"); // pour adaptation de /profils/:id/edit.html
   // redirection "naturelle" vers profils#edit après update dans housings#update ?;
 }
 
