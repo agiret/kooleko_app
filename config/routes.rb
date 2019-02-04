@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'enedis_connections/connect'
+  get 'connect', to: 'enedis_connections#connect', as: :connect
   devise_for :users
   root to: 'pages#home'
   resources :housings
