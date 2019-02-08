@@ -3,7 +3,9 @@ class EnedisConnectionsController < ApplicationController
   before_action :set_profil, only: [:connect]
 
   def connect
-    consent
+    # consent
+    # (pour le moment pas de consent par rappor au redirect_uri)
+    # get_tokens
   end
 
   private
@@ -20,16 +22,21 @@ class EnedisConnectionsController < ApplicationController
     @state = @profil.enedis_state
     client_id = ENV['ENEDIS_CLIENT_ID']
     link = 'https://gw.hml.api.enedis.fr/group/espace-particuliers/consentement-linky/oauth2/authorize'
-    response = RestClient.get link, {
-      client_id: client_id,
-      state: @state,
-      duration: 'P6M',
-      response_type: 'code',
-      redirect_uri: 'https://gw.hml.api.enedis.fr/redirect'
-    }
-    @consent_response = response
+    # response = RestClient.get link, {
+    #   client_id: client_id,
+    #   state: @state,
+    #   duration: 'P6M',
+    #   response_type: 'code',
+    #   redirect_uri: 'https://gw.hml.api.enedis.fr/redirect'
+    # }
+    # @consent_response = response
+    duration = 'P6M'
+    redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
+    redirect_to "#{link}?client_id=#{client_id}&state=#{@state}&duration=#{duration}&response_type=code&redirect_uri=#{redirect_uri}"
   end
   def get_tokens
+    client_id = ENV['ENEDIS_CLIENT_ID']
+    client_secret = ENV['ENEDIS_CLIENT_SECRET']
 
   end
   def get_identity
