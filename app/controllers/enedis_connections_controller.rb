@@ -38,7 +38,7 @@ class EnedisConnectionsController < ApplicationController
     client_id = ENV['ENEDIS_CLIENT_ID']
     client_secret = ENV['ENEDIS_CLIENT_SECRET']
     redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
-    link = "https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=#{redirect_uri}"
+    link = "https://gw.hml.api.enedis.fr/v1/oauth2/token"
     # response = RestClient.post link, {
     #   grant_type: 'authorization_code',
     #   code: 'ciLHi5vBgX7LxPM6ekewQGMZ0U1sivraUFHVYxObINMpY7',
@@ -55,7 +55,14 @@ class EnedisConnectionsController < ApplicationController
       }
     }
 
-    response = RestClient.post link, params, headers
+    # Exemple :
+    # response= RestClient::Request.execute(:method => :post,
+    #                                      :url => api_url,
+    #                                      :payload => {:file => file, :multipart => true },
+    #                                      :headers => { :params =>{:foo => 'foo'}},
+    #                                       :timeout => 90000000)
+
+    # response = RestClient.post link, params, headers
 
     @token_response = JSON.parse(response)
     @refresh_token = @token_response['refresh_token']
