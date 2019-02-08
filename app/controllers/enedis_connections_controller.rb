@@ -5,7 +5,7 @@ class EnedisConnectionsController < ApplicationController
   def connect
     # consent
     # (pour le moment pas de consent par rappor au redirect_uri)
-    # get_tokens
+    get_tokens
   end
 
   private
@@ -37,6 +37,37 @@ class EnedisConnectionsController < ApplicationController
   def get_tokens
     client_id = ENV['ENEDIS_CLIENT_ID']
     client_secret = ENV['ENEDIS_CLIENT_SECRET']
+    redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
+    link = "https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=#{redirect_uri}"
+    # response = RestClient.post link, {
+    #   grant_type: 'authorization_code',
+    #   code: 'ciLHi5vBgX7LxPM6ekewQGMZ0U1sivraUFHVYxObINMpY7',
+    #   client_id: client_id,
+    #   client_secret: client_secret
+    # }
+    params = {
+      redirect_uri: redirect_uri,
+      body: {
+        grant_type: 'authorization_code',
+        code: '576c61wMkOlrCMhjro0mbOAlPKtksk',
+        client_id: client_id,
+        client_secret: client_secret
+      }
+    }
+
+    response = RestClient.post link, params, headers
+
+    @token_response = JSON.parse(response)
+    @refresh_token = @token_response['refresh_token']
+    @access_token = @token_response['access_token']
+
+    # Test avec gem oauth2 :
+    # redirect_uri  = 'https://gw.hml.api.enedis.fr/redirect' # your client's redirect uri
+    # site          = "http://localhost:3000" # your provider server, mine is running on localhost
+
+    # client = OAuth2::Client.new(client_id, client_secret, :site => site)
+    # code = "Y22qqsmXegVPgcnJQJZoYXDtguWdjr" # code you got in the redirect uri
+    # token = client.auth_code.get_token(code, :redirect_uri => redirect_uri)
 
   end
   def get_identity
