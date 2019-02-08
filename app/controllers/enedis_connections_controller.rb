@@ -39,42 +39,25 @@ class EnedisConnectionsController < ApplicationController
     client_secret = ENV['ENEDIS_CLIENT_SECRET']
     redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
     link = "https://gw.hml.api.enedis.fr/v1/oauth2/token"
-    # response = RestClient.post link, {
-    #   grant_type: 'authorization_code',
-    #   code: 'ciLHi5vBgX7LxPM6ekewQGMZ0U1sivraUFHVYxObINMpY7',
-    #   client_id: client_id,
-    #   client_secret: client_secret
-    # }
-    params = {
-      redirect_uri: redirect_uri,
-      body: {
+    @code = 'uQEXNlup59VOVn91w2u61lkiB1poUw'  # normalement à récupérer avec consent juste avant
+    # response = RestClient.post link, params, headers
+    response = RestClient::Request.execute(
+      method: 'POST',
+      url: link,
+      payload: {
         grant_type: 'authorization_code',
-        code: '576c61wMkOlrCMhjro0mbOAlPKtksk',
+        code: @code,
         client_id: client_id,
         client_secret: client_secret
+      },
+      headers: {
+        params: {redirect_uri: redirect_uri }
       }
-    }
-
-    # Exemple :
-    # response= RestClient::Request.execute(:method => :post,
-    #                                      :url => api_url,
-    #                                      :payload => {:file => file, :multipart => true },
-    #                                      :headers => { :params =>{:foo => 'foo'}},
-    #                                       :timeout => 90000000)
-
-    # response = RestClient.post link, params, headers
+    )
 
     @token_response = JSON.parse(response)
     @refresh_token = @token_response['refresh_token']
     @access_token = @token_response['access_token']
-
-    # Test avec gem oauth2 :
-    # redirect_uri  = 'https://gw.hml.api.enedis.fr/redirect' # your client's redirect uri
-    # site          = "http://localhost:3000" # your provider server, mine is running on localhost
-
-    # client = OAuth2::Client.new(client_id, client_secret, :site => site)
-    # code = "Y22qqsmXegVPgcnJQJZoYXDtguWdjr" # code you got in the redirect uri
-    # token = client.auth_code.get_token(code, :redirect_uri => redirect_uri)
 
   end
   def get_identity
