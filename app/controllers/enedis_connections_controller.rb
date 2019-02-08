@@ -39,7 +39,7 @@ class EnedisConnectionsController < ApplicationController
     client_secret = ENV['ENEDIS_CLIENT_SECRET']
     redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
     link = "https://gw.hml.api.enedis.fr/v1/oauth2/token"
-    @code = 'uQEXNlup59VOVn91w2u61lkiB1poUw'  # normalement à récupérer avec consent juste avant
+    @code = 'qTml8Nb9Ck6o8VOYreXPqb7FrunC2U'  # normalement à récupérer avec consent juste avant
     # response = RestClient.post link, params, headers
     response = RestClient::Request.execute(
       method: 'POST',
@@ -59,6 +59,9 @@ class EnedisConnectionsController < ApplicationController
     @refresh_token = @token_response['refresh_token']
     @access_token = @token_response['access_token']
 
+    @profil.enedis_refresh_token = @refresh_token
+    @profil.enedis_access_token = @access_token
+    @profil.save
   end
   def get_identity
     refresh_tokens
