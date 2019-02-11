@@ -7,8 +7,8 @@ class EnedisConnectionsController < ApplicationController
     # (pour le moment pas de consent par rappor au redirect_uri)
     # get_tokens
     # refresh_tokens
-    get_identity
-    get_client_infos
+    get_identity        # Prénom, nom
+    get_client_infos    # N° de téléphone
   end
 
   private
@@ -107,8 +107,7 @@ class EnedisConnectionsController < ApplicationController
     @profil.firstname = @firstname
     @profil.lastname = @lastname
     @profil.save
-
-    puts '---> Identité récupérée'
+    puts '---> Identité récupérée (Prénom, Nom)'
   end
   def get_client_infos
     # refresh_tokens
@@ -129,8 +128,7 @@ class EnedisConnectionsController < ApplicationController
     @phone = contact_response[0]['customer']['contact_data']['phone']
     @profil.phone = @phone
     @profil.save
-
-    puts '---> Identité récupérée'
+    puts '---> Numéro de téléphone récupéré'
   end
   def contract_datas
 
