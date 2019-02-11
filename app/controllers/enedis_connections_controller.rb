@@ -5,8 +5,9 @@ class EnedisConnectionsController < ApplicationController
   def connect
     # consent
     # (pour le moment pas de consent par rappor au redirect_uri)
-    get_tokens
+    # get_tokens
     # refresh_tokens
+    get_identity
   end
 
   private
@@ -44,7 +45,7 @@ class EnedisConnectionsController < ApplicationController
   def get_tokens
     redirect_uri = ENV['ENEDIS_REDIRECT_URI']
     link = "#{ENV['ENEDIS_DOMAIN']}oauth2/token"
-    @code = 'fz8Ij9bED6fgF1Xk4G5tqG0AJvtqIM'  #!! normalement à récupérer avec consent juste avant
+    @code = 'HxAjjYzjcTapEfkU7mmB8XcaNR7Cup'  #!! normalement à récupérer avec consent juste avant
     # response = RestClient.post link, params, headers
     response = RestClient::Request.execute(
       method: 'POST',
@@ -63,6 +64,7 @@ class EnedisConnectionsController < ApplicationController
     @profil.enedis_refresh_token = token_response['refresh_token']
     @profil.enedis_access_token = token_response['access_token']
     @profil.save
+    puts '---> access_token et refresh_token récupérés et sauvegardés ! (get_tokens)'
   end
   def refresh_tokens
     link = "#{ENV['ENEDIS_DOMAIN']}oauth2/token?redirect_uri=#{ENV['ENEDIS_REDIRECT_URI']}"
@@ -76,12 +78,35 @@ class EnedisConnectionsController < ApplicationController
     @profil.enedis_refresh_token = refresh_response['refresh_token']
     @profil.enedis_access_token = refresh_response['access_token']
     @profil.save
+    puts '---> refresh_token !'
   end
 
   # ENEDIS DATAS REQUESTS :
   def get_identity
     refresh_tokens
+    @msg = "Récupération de l'identité du client"
+    @housing = Housing.find(@profil.housing_id)
+    @usage_point_id = @housing.enedis_usage_point_id
 
+    link = "https://gw.hml.api.enedis.fr/v3/customers/identity"
+    response = RestClient::Request.execute(
+      method: 'GET',
+      url: link,
+      headers: {
+        accept: 'application/json',
+        authorization: "Bearer #{@profil.enedis_access_token}",
+        params: {usage_point_id: "#{@housing.enedis_usage_point_id}" }
+      }
+    )
+    @identity_response = JSON.parse(response)
+    @title = @identity_response[0]['customer']['identity']['natural_person']['title']
+    @firstname = @identity_response[0]['customer']['identity']['natural_person']['firstname']
+    @lastname = @identity_response[0]['customer']['identity']['natural_person']['lastname']
+    # @profil.enedis_refresh_token = token_response['refresh_token']
+    # @profil.enedis_access_token = token_response['access_token']
+    # @profil.save
+
+    puts '---> Identité récupérée'
   end
   def get_client_infos
 
