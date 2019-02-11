@@ -5,8 +5,8 @@ class EnedisConnectionsController < ApplicationController
   def connect
     # consent
     # (pour le moment pas de consent par rappor au redirect_uri)
-    # get_tokens
-    refresh_tokens
+    get_tokens
+    # refresh_tokens
   end
 
   private
@@ -38,12 +38,12 @@ class EnedisConnectionsController < ApplicationController
     # }
     # @consent_response = response
     duration = 'P6M'
-    redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
+    redirect_uri = ENV['ENEDIS_REDIRECT_URI']
     redirect_to "#{link}?client_id=#{@client_id}&state=#{@state}&duration=#{duration}&response_type=code&redirect_uri=#{redirect_uri}"
   end
   def get_tokens
-    redirect_uri = 'https://gw.hml.api.enedis.fr/redirect'
-    link = "https://gw.hml.api.enedis.fr/v1/oauth2/token"
+    redirect_uri = ENV['ENEDIS_REDIRECT_URI']
+    link = "#{ENV['ENEDIS_DOMAIN']}oauth2/token"
     @code = 'fz8Ij9bED6fgF1Xk4G5tqG0AJvtqIM'  #!! normalement à récupérer avec consent juste avant
     # response = RestClient.post link, params, headers
     response = RestClient::Request.execute(
@@ -65,7 +65,7 @@ class EnedisConnectionsController < ApplicationController
     @profil.save
   end
   def refresh_tokens
-    link = 'https://gw.hml.api.enedis.fr/v1/oauth2/token?redirect_uri=https://gw.hml.api.enedis.fr/redirect'
+    link = "#{ENV['ENEDIS_DOMAIN']}oauth2/token?redirect_uri=#{ENV['ENEDIS_REDIRECT_URI']}"
     response = RestClient.post link, {
       grant_type: 'refresh_token',
       refresh_token: @profil.enedis_refresh_token,
