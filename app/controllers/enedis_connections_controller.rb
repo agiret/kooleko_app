@@ -9,11 +9,13 @@ class EnedisConnectionsController < ApplicationController
     # refresh_tokens
     get_identity        # Prénom, nom
     get_client_infos    # N° de téléphone
+    contract_datas      # Adresse logement + données de ligne ENEDIS
   end
 
   private
   # Use callbacks to share common setup or constraints between actions.
   # BEFORE_ACTION FUNCTIONS:
+  # ------------------------
   def set_profil
     @profil = User.find(current_user.id)
   end
@@ -23,6 +25,7 @@ class EnedisConnectionsController < ApplicationController
   end
 
   # ENEDIS ACCESS FUNCTIONS :
+  # -------------------------
   def consent
     # affecter une valeur à enedis_state du current_user
     if @profil.enedis_state == nil
@@ -85,11 +88,12 @@ class EnedisConnectionsController < ApplicationController
     puts '---> refresh_token !'
   end
 
-  # ENEDIS DATAS REQUESTS :
+  # ENEDIS DATA REQUESTS :
+  # ----------------------
   def get_identity
     refresh_tokens
     @housing = Housing.find(@profil.housing_id)
-    @usage_point_id = @housing.enedis_usage_point_id
+    @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
 
     link = "https://gw.hml.api.enedis.fr/v3/customers/identity"
     response = RestClient::Request.execute(
@@ -111,8 +115,8 @@ class EnedisConnectionsController < ApplicationController
   end
   def get_client_infos
     # refresh_tokens
-    @housing = Housing.find(@profil.housing_id)
-    @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
+    # @housing = Housing.find(@profil.housing_id)
+    # @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
 
     link = "https://gw.hml.api.enedis.fr/v3/customers/contact_data"
     response = RestClient::Request.execute(
@@ -131,6 +135,45 @@ class EnedisConnectionsController < ApplicationController
     puts '---> Numéro de téléphone récupéré'
   end
   def contract_datas
+    # refresh_tokens
+    # @housing = Housing.find(@profil.housing_id)
+    # @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
+    @enedis_datum = EnedisDatum.find(@housing)
 
+    link = "https://gw.hml.api.enedis.fr/v3/customers/usage_points/contracts"
+    response = RestClient::Request.execute(
+      method: 'GET',
+      url: link,
+      headers: {
+        accept: 'application/json',
+        authorization: "Bearer #{@profil.enedis_access_token}",
+        params: {usage_point_id: "#{@housing.enedis_usage_point_id}" }
+      }
+    )
+    contract_response = JSON.parse(response)
+    # Récupération des données :
+    @usage_point_status = contract_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_status']
+    @meter_type = contract_response[0]['customer']['usage_points'][0]['usage_point']['meter_type']
+    @segment = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['segment']
+    @subscribed_power = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['subscribed_power']
+    @last_activation_date = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['last_activation_date']
+    @distri_tarif = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['distribution_tariff']
+    @offpeak_hours = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['offpeak_hours']
+    @contract_type = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['contract_type']
+    @contract_status = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['contract_status']
+    @last_distri_tarif_change_date = contract_response[0]['customer']['usage_points'][0]['usage_point']['contracts']['last_distribution_tariff_change_date']
+    # Enregistrement des données :
+    @enedis_datum.usage_point_status = @usage_point_status
+    @enedis_datum.meter_type = @meter_type
+    @enedis_datum.segment = @segment
+    @enedis_datum.subscribed_power = @subscribed_power
+    @enedis_datum.last_activation_date = @last_activation_date
+    @enedis_datum.distri_tarif = @distri_tarif
+    @enedis_datum.offpeak_hours = @offpeak_hours
+    @enedis_datum.contract_type = @contract_type
+    @enedis_datum.contract_status = @contract_status
+    @enedis_datum.last_distri_tarif_change_date = @last_distri_tarif_change_date
+    @profil.save
+    puts '---> Données de ligne ENEDIS récupérées'
   end
 end

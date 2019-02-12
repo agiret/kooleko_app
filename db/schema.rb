@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_12_093508) do
+ActiveRecord::Schema.define(version: 2019_02_12_100857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_02_12_093508) do
     t.string "last_distri_tarif_change_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "contract_type"
     t.index ["housing_id"], name: "index_enedis_data_on_housing_id"
   end
 

@@ -1,6 +1,20 @@
 <h1>EnedisConnections#connect</h1>
 <p>Find me in app/views/enedis_connections/connect.html.erb</p>
 
+<p><%= @profil.enedis_access_token %></p>
+
 <p>PDL : <%= @usage_point_id %></p>
 <p>Identité : <%= "#{@firstname} #{@lastname.upcase}" %></p>
-<p>Tél. : <%= @phone %></p>
+<p>Tél. : <%= @profil.phone %></p>
+<p>Adresse : </p>
+<h3>Ligne ENEDIS :</h3>
+<p>usage_point_status : <%= @enedis_datum.usage_point_status %></p>
+<p>meter_type : <%= @enedis_datum.meter_type %></p>
+<p>segment : <%= @enedis_datum.segment %></p>
+<p>subscribed_power : <%= @enedis_datum.subscribed_power %></p>
+<p>last_activation_date : <%= @enedis_datum.last_activation_date %></p>
+<p>distri_tarif : <%= @enedis_datum.distri_tarif %></p>
+<p>offpeak_hours : <%= @enedis_datum.offpeak_hours %></p>
+<p>contract_type : <%= @enedis_datum.contract_type %></p>
+<p>contract_status : <%= @enedis_datum.contract_status %></p>
+<p>last_distri_tarif_change_date : <%= @enedis_datum.last_distri_tarif_change_date %></p>
