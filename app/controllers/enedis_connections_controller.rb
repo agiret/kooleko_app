@@ -112,7 +112,7 @@ class EnedisConnectionsController < ApplicationController
   def get_client_infos
     # refresh_tokens
     @housing = Housing.find(@profil.housing_id)
-    @usage_point_id = @housing.enedis_usage_point_id
+    @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
 
     link = "https://gw.hml.api.enedis.fr/v3/customers/contact_data"
     response = RestClient::Request.execute(

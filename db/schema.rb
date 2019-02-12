@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_11_181334) do
+ActiveRecord::Schema.define(version: 2019_02_12_093508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "enedis_data", force: :cascade do |t|
+    t.bigint "housing_id"
+    t.string "usage_point_status"
+    t.string "meter_type"
+    t.string "segment"
+    t.string "subscribed_power"
+    t.string "last_activation_date"
+    t.string "distri_tarif"
+    t.string "offpeak_hours"
+    t.string "contract_status"
+    t.string "last_distri_tarif_change_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["housing_id"], name: "index_enedis_data_on_housing_id"
+  end
 
   create_table "housings", force: :cascade do |t|
     t.integer "surface_area"
@@ -51,5 +67,6 @@ ActiveRecord::Schema.define(version: 2019_02_11_181334) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "enedis_data", "housings"
   add_foreign_key "users", "housings"
 end
