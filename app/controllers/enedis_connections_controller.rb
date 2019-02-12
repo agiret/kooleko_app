@@ -138,7 +138,7 @@ class EnedisConnectionsController < ApplicationController
     # refresh_tokens
     # @housing = Housing.find(@profil.housing_id)
     # @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
-    @enedis_datum = EnedisDatum.find(@housing)
+    @enedis_datum = EnedisDatum.new(housing_id: @housing)
 
     link = "https://gw.hml.api.enedis.fr/v3/customers/usage_points/contracts"
     response = RestClient::Request.execute(
@@ -173,7 +173,7 @@ class EnedisConnectionsController < ApplicationController
     @enedis_datum.contract_type = @contract_type
     @enedis_datum.contract_status = @contract_status
     @enedis_datum.last_distri_tarif_change_date = @last_distri_tarif_change_date
-    @profil.save
+    @enedis_datum.save
     puts '---> Données de ligne ENEDIS récupérées'
   end
 end
