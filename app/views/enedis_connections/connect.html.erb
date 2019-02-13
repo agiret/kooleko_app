@@ -6,7 +6,8 @@
 <p>PDL : <%= @usage_point_id %></p>
 <p>Identité : <%= "#{@firstname} #{@lastname.upcase}" %></p>
 <p>Tél. : <%= @profil.phone %></p>
-<p>Adresse : </p>
+<h3>Adresse : </h3>
+<p><%= "#{@housing.address_street} - #{@housing.address_postal_code} #{@address_city}" %></p>
 <h3>Ligne ENEDIS :</h3>
 <p>usage_point_status : <%= @enedis_datum.usage_point_status %></p>
 <p>meter_type : <%= @enedis_datum.meter_type %></p>

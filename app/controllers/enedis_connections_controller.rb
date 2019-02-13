@@ -9,7 +9,8 @@ class EnedisConnectionsController < ApplicationController
     # refresh_tokens
     get_identity        # Prénom, nom
     get_client_infos    # N° de téléphone
-    contract_datas      # Adresse logement + données de ligne ENEDIS
+    contract_datas      # Données de ligne ENEDIS
+    get_address         # Adresse du logement
   end
 
   private
@@ -138,7 +139,7 @@ class EnedisConnectionsController < ApplicationController
     # refresh_tokens
     # @housing = Housing.find(@profil.housing_id)
     # @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
-    @enedis_datum = EnedisDatum.new(housing_id: @housing.id)
+    @enedis_datum = EnedisDatum.new(housing_id: @housing.id)  #!! prévoir cas où un enedis_datum basé sur ce @housing existe déjà ??
 
     link = "https://gw.hml.api.enedis.fr/v3/customers/usage_points/contracts"
     response = RestClient::Request.execute(
@@ -175,5 +176,38 @@ class EnedisConnectionsController < ApplicationController
     @enedis_datum.last_distri_tarif_change_date = @last_distri_tarif_change_date
     @enedis_datum.save
     puts '---> Données de ligne ENEDIS récupérées'
+  end
+  def get_address
+    # refresh_tokens
+    # @housing = Housing.find(@profil.housing_id)
+    # @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
+
+    link = "https://gw.hml.api.enedis.fr/v3/customers/usage_points/addresses"
+    response = RestClient::Request.execute(
+      method: 'GET',
+      url: link,
+      headers: {
+        accept: 'application/json',
+        authorization: "Bearer #{@profil.enedis_access_token}",
+        params: {usage_point_id: "#{@housing.enedis_usage_point_id}" }
+      }
+    )
+    address_response = JSON.parse(response)
+    # Récupération des données :
+    @address_street = address_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_addresses']['street']
+    @address_locality = address_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_addresses']['locality']
+    @address_postal_code = address_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_addresses']['postal_code']
+    @address_insee_code = address_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_addresses']['insee_code']
+    @address_city = address_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_addresses']['city']
+    @address_country = address_response[0]['customer']['usage_points'][0]['usage_point']['usage_point_addresses']['country']
+    # Enregistrement des données :
+    @housing.address_street = @address_street
+    @housing.address_locality = @address_locality
+    @housing.address_postal_code = @address_postal_code
+    @housing.address_insee_code = @address_insee_code
+    @housing.address_city = @address_city
+    @housing.address_country = @address_country
+    @housing.save
+    puts '---> Adresse du logement récupérée'
   end
 end
