@@ -33,6 +33,7 @@
 .navbar-wagon-item {
   cursor: pointer;
   padding: 0 20px;
+  transition: color 0.3s ease;
 }
 
 /* Navbar link */
@@ -46,6 +47,11 @@
   text-decoration: none;
 }
 
+// Ne fonctionne pas quand svg est dans a à priori :
+// a svg:hover #avatar-svg {
+//   fill: $my-fresh;
+// }
+
 /* Dropdown menu */
 .navbar-wagon-dropdown-menu {
   margin-top: 15px;
@@ -55,14 +61,14 @@
 .navbar-wagon-dropdown-menu li > a {
   transition: color 0.3s ease;
   font-weight: lighter !important;
-  color: #999999 !important;
+  color: $hight-gray !important;
   font-size: 15px !important;
   line-height: 22px !important;
   padding: 10px 20px;
 }
 .navbar-wagon-dropdown-menu li > a:hover {
   background: transparent !important;
-  color: black !important;
+  color: $my-fresh !important;
 }
 .navbar-wagon-dropdown-menu:before {
   content: ' ';
