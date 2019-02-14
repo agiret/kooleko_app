@@ -20,7 +20,12 @@ class HousingsController < ApplicationController
 
   end
   def update
-    redirect_to validation_profil_path(current_user)
+    if @housing.update(housing_params)
+      # confirm_profil
+      redirect_to validation_profil_path(current_user)#, notice: 'Logement enregistré.'
+    else
+      render :edit
+    end
   end
 
   private
@@ -33,6 +38,7 @@ class HousingsController < ApplicationController
   end
 
   def housing_params
-    params.permit(:enedis_usage_point_id)
+    # params.permit(:surface_area, :heat_system)
+    params.require(:housing).permit(:surface_area, :heat_system, :hot_water_system, :address_street, :address_postal_code, :address_city)
   end
 end

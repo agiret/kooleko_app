@@ -6,8 +6,20 @@
           <%= render 'shared/onboarding_steps' %>
         </div>
         <div class="row">
+          <h2>Bravo, c'est tout bon !</h2>
+          <div class="text-justify">
+            <p>Ton compte est configuré : tu reçevras <strong>par SMS</strong> et <strong>une fois pas semaine</strong>, ton suivi de consommation en € par rapport à ta prochaine facture</p>
+            <p>Dans la section <strong>“Préférences”</strong>, tu peux modifier ces réglages par défaut pour <strong>choisir quand et comment</strong> recevoir ces informations et nos recommandations.</p>
+          </div>
+        </div>
+        <div class="row">
           <div>
-            <h2>Bravo c'est tout bon !</h2>
+            <%= link_to root_path, class: "btn btn-lg btn-success"  do %>
+              <%= "Mon espace" %>
+            <% end %>
+            <%= link_to "#", class: "btn btn-lg btn-success"  do %>
+              <%= "Préférences" %>
+            <% end %>
           </div>
         </div>
       </div>
