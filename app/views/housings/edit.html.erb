@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+      <div class="panel text-center">
+        <div class="row">
+          <%= render 'shared/onboarding_steps' %>
+        </div>
+        <div class="row">
+          <div class="text-left">
+            <p>Ton logement :</p>
+            <!-- Bloc de validation du profil (avec " V Liaison avec ENEDIS Ok !" et "Valider" qui amène vers "validation pages#validation") -->
+            <%= simple_form_for @housing, url: housing_path do |f| %>
+              <%= f.error_notification %>
+
+              <div class="form-inputs">
+                <%= f.input :address_street, label: "Rue" %>
+                <%= f.input :address_postal_code, label: "Code postal" %>
+                <%= f.input :address_city, label: "Ville" %>
+                <%= f.input :surface_area, label: "Surface (m2)" %>
+                <%= f.input :heat_system, label: "Chauffage principal" %>
+                <%= f.input :hot_water_system, label: "Production d'eau chaude" %>
+              </div>
+
+              <div class="form-actions">
+                <%= f.button :submit, 'Valider', class: "btn btn-primary" %>
+                <%= link_to 'Annuler', :back, class: "btn btn-default"%>
+              </div>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

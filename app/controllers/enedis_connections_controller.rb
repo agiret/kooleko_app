@@ -11,6 +11,7 @@ class EnedisConnectionsController < ApplicationController
     get_client_infos    # N° de téléphone
     contract_datas      # Données de ligne ENEDIS
     get_address         # Adresse du logement
+    redirect_to  edit_profil_path(@profil)
   end
 
   private

@@ -1,5 +1,6 @@
 class HousingsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_profil, :set_housing, only: [:edit, :update]
 
   def index
     @housings = current_user.housings
@@ -15,8 +16,21 @@ class HousingsController < ApplicationController
       puts "Problem : Housing not save"
     end
   end
+  def edit
+
+  end
+  def update
+
+  end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+  def set_housing
+    @housing = Housing.find(params[:id])
+  end
+  def set_profil
+    @profil = User.find(current_user.id)
+  end
 
   def housing_params
     params.permit(:enedis_usage_point_id)
