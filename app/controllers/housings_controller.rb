@@ -22,6 +22,7 @@ class HousingsController < ApplicationController
   def update
     if @housing.update(housing_params)
       # confirm_profil
+      current_user.update(onboarding_step: 3)
       redirect_to validation_profil_path(current_user)#, notice: 'Logement enregistré.'
     else
       render :edit

@@ -23,6 +23,7 @@
 .progressbar {
   counter-reset: step;
   color: $my-fresh;
+  margin-bottom: 90px;
   li {
     list-style-type: none;
     float: left;
