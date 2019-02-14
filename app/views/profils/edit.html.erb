@@ -1,47 +1,42 @@
 <p>onboarding_step : <%= @onboarding_step %></p>
 
-<!--
-<#% if @onboarding_step == 0 %>
-  <p>Attente de validation email</p>
-<#% elsif @onboarding_step == 1 %>
-  <%#= render 'profils/enedis_link' %>
-<#% elsif @onboarding_step == 2 %>
-  <%#= render 'profils/profil_validation' %>
-<#% elsif @onboarding_step == 3 %>
-  <p>Profil complet</p>
-<#% end %>
- -->
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-      <div class="panel text-center">
-        <div class="row">
-          <%= render 'shared/onboarding_steps' %>
-        </div>
-        <div class="row">
-          <div id="enedis-ok">
-            <h2><i class="fas fa-check"></i> Liaison avec ENEDIS validée !</h2>
+
+<% if @onboarding_step == 1 %>
+  <%= render 'profils/enedis_link' %>
+<% elsif @onboarding_step == 2 %>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+        <div class="panel text-center">
+          <div class="row">
+            <%= render 'shared/onboarding_steps' %>
           </div>
-          <div class="text-left">
-            <p>Merci de compléter et de valider ton profil.</p>
-            <%= simple_form_for @profil, url: profil_path do |f| %>
-              <%= f.error_notification %>
+          <div class="row">
+            <div id="enedis-ok">
+              <h2><i class="fas fa-check"></i> Liaison avec ENEDIS validée !</h2>
+            </div>
+            <div class="text-left">
+              <p>Merci de compléter et de valider ton profil.</p>
+              <%= simple_form_for @profil, url: profil_path do |f| %>
+                <%= f.error_notification %>
 
-              <div class="form-inputs">
-                <%= f.input :firstname, label: "Prénom"%>
-                <%= f.input :lastname, label: "Nom" %>
-                <%= f.input :phone, label: "Numéro de téléphone" %>
-              </div>
+                <div class="form-inputs">
+                  <%= f.input :firstname, label: "Prénom"%>
+                  <%= f.input :lastname, label: "Nom" %>
+                  <%= f.input :phone, label: "Numéro de téléphone" %>
+                </div>
 
-              <div class="form-actions">
-                <%= f.button :submit, 'Valider', class: "btn btn-primary" %>
-                <%= link_to 'Annuler', :back, class: "btn btn-default"%>
-              </div>
-            <% end %>
+                <div class="form-actions">
+                  <%= f.button :submit, 'Valider', class: "btn btn-primary" %>
+                  <%= link_to 'Annuler', :back, class: "btn btn-default"%>
+                </div>
+              <% end %>
+            </div>
+
           </div>
-
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
+
