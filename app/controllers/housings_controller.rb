@@ -20,7 +20,7 @@ class HousingsController < ApplicationController
 
   end
   def update
-
+    redirect_to validation_profil_path(current_user)
   end
 
   private
