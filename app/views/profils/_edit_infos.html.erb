@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+      <div class="panel text-center">
+        <div class="row">
+          <div class="text-left">
+            <h2>Mes infos</h2>
+            <%= simple_form_for @profil, url: profil_path do |f| %>
+              <%= f.error_notification %>
+
+              <div class="form-inputs">
+                <%= f.input :firstname, label: "Prénom"%>
+                <%= f.input :lastname, label: "Nom" %>
+                <%= f.input :phone, label: "Numéro de téléphone" %>
+              </div>
+
+              <div class="form-actions text-center">
+                <%= link_to 'Annuler', :back, class: "btn btn-default"%>
+                <%= f.button :submit, 'Valider', class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
