@@ -14,7 +14,7 @@
 
       <!-- Links when logged in -->
       <%#= link_to "Préférences", "#", class: "navbar-wagon-item navbar-wagon-link" %>
-      <%= link_to "#", class: "navbar-wagon-item navbar-wagon-link"  do %>
+      <%= link_to settings_profil_path(@profil), class: "navbar-wagon-item navbar-wagon-link"  do %>
         <i class="fas fa-cog"></i>  <%= "Préférences" %>
       <% end %>
       <%#= link_to "A propos", "#", class: "navbar-wagon-item navbar-wagon-link" %>
