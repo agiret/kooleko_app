@@ -4,7 +4,7 @@ class EnedisConnectionsController < ApplicationController
 
   def connect
     # consent
-    # (pour le moment pas de consent par rappor au redirect_uri)
+    # (pour le moment pas de consent par rapport au redirect_uri)
     # get_tokens
     # refresh_tokens
     get_identity        # Prénom, nom
@@ -55,7 +55,7 @@ class EnedisConnectionsController < ApplicationController
   def get_tokens
     redirect_uri = ENV['ENEDIS_REDIRECT_URI']
     link = "#{ENV['ENEDIS_DOMAIN']}oauth2/token"
-    @code = 'HxAjjYzjcTapEfkU7mmB8XcaNR7Cup'  #!! normalement à récupérer avec consent juste avant
+    @code = 'WAxUNGgLlsD3xdjAvvTtILz885qroe'  #!! normalement à récupérer avec consent juste avant
     # response = RestClient.post link, params, headers
     response = RestClient::Request.execute(
       method: 'POST',

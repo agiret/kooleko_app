@@ -12,7 +12,14 @@ class ProfilsController < ApplicationController
     @housing = Housing.find(@profil.housing_id)
     if @profil.update(profil_params)
       # confirm_profil
-      redirect_to edit_housing_path(@housing.id)#, notice: 'Profil enregistré.'
+      # Adaptation du flux si user est encore en mode onboarding :
+      if @onboarding_step == 2
+        # Redirection vers suite onboarding : données logement
+        redirect_to edit_housing_path(@housing.id)#, notice: 'Profil enregistré.'
+      elsif @onboarding_step == 3
+        # Redirection vers le show du profil
+        redirect_to profil_path(@profil.id)
+      end
     else
       render :edit
     end

@@ -1,3 +1,5 @@
+<p>onboarding_step : <%= @onboarding_step %></p>
+
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-sm-offset-1">
@@ -22,7 +24,11 @@
               </div>
 
               <div class="form-actions text-center">
-                <%= link_to 'Annuler', :back, class: "btn btn-default"%>
+                <% if @onboarding_step == 2 %>
+                  <%= link_to 'Retour', :back, class: "btn btn-default" %>
+                <% else %>
+                  <%= link_to 'Annuler', :back, class: "btn btn-default" %>
+                <% end %>
                 <%= f.button :submit, 'Valider', class: "btn btn-primary" %>
               </div>
             <% end %>
