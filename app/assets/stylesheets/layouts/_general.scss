@@ -2,6 +2,11 @@
 
 a, a:visited {
     text-decoration: none !important;
+    color: $hight-gray;
+}
+
+a:hover {
+  color: $my-fresh;
 }
 
 li {
@@ -13,4 +18,8 @@ li {
 i {
   margin-right: 0.2em;
   margin-left: 0.2em;
+}
+.devise-links{
+  padding-top: 10px;
+  // font-size: 14px;
 }
