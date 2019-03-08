@@ -37,7 +37,7 @@
             </li> -->
             <li>
               <%= link_to destroy_user_session_path, method: :delete do %>
-                <i class="fas fa-sign-out-alt"></i>  <%= t(".sign_out", default: "Me deconnecter") %>
+                <i class="fas fa-sign-out-alt"></i>  <%= t(".sign_out", default: "Se deconnecter") %>
               <% end %>
             </li>
           </ul>
@@ -48,7 +48,7 @@
       <%#= link_to t(".sign_in", default: "Me connecter"), new_user_session_path, class: "navbar-wagon-item navbar-wagon-link" %>
 
       <%= link_to new_user_session_path , class:"navbar-wagon-link" do %>
-        <i class="fas fa-sign-in-alt"></i>  <%= t(".sign_in", default: "Me connecter") %>
+        <i class="fas fa-sign-in-alt"></i>  <%= t(".sign_in", default: "Connection") %>
       <% end %>
     <% end %>
   </div>
@@ -71,13 +71,13 @@
           </li>
           <li>
             <%= link_to destroy_user_session_path, method: :delete do %>
-              <i class="fas fa-sign-out-alt"></i>  <%= t(".sign_out", default: "Me deconnecter") %>
+              <i class="fas fa-sign-out-alt"></i>  <%= t(".sign_out", default: "Se deconnecter") %>
             <% end %>
           </li>
         </ul>
       <% else %>
         <%= link_to new_user_session_path , class:"navbar-wagon-link" do %>
-          <i class="fas fa-sign-in-alt"></i>  <%= t(".sign_in", default: "Me connecter") %>
+          <i class="fas fa-sign-in-alt"></i>  <%= t(".sign_in", default: "Se connecter") %>
         <% end %>
       <% end %>
 
