@@ -8,7 +8,6 @@ class HousingsController < ApplicationController
   def create
     @housing = Housing.new(housing_params)
     # @housing.enedis_usage_point_id = params[:enedis_usage_point_id]
-
     if @housing.save
       current_user.update(housing_id: @housing.id)
       redirect_to edit_profil_path(current_user)
@@ -50,6 +49,6 @@ class HousingsController < ApplicationController
 
   def housing_params
     # params.permit(:surface_area, :heat_system)
-    params.require(:housing).permit(:surface_area, :heat_system, :hot_water_system, :address_street, :address_postal_code, :address_city)
+    params.require(:housing).permit(:enedis_usage_point_id, :surface_area, :heat_system, :hot_water_system, :address_street, :address_postal_code, :address_city)
   end
 end

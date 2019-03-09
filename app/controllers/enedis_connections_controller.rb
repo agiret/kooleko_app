@@ -7,6 +7,7 @@ class EnedisConnectionsController < ApplicationController
     # (pour le moment pas de consent par rapport au redirect_uri)
     # get_tokens
     # refresh_tokens
+    create_housing      # Création du logement associé au user
     get_identity        # Prénom, nom
     get_client_infos    # N° de téléphone
     contract_datas      # Données de ligne ENEDIS
@@ -25,6 +26,12 @@ class EnedisConnectionsController < ApplicationController
   def set_keys
     @client_id = ENV['ENEDIS_CLIENT_ID']
     @client_secret = ENV['ENEDIS_CLIENT_SECRET']
+  end
+  def create_housing
+    @usage_point_id = "12345678901234"  #!! A récupérer dans le consent
+    new_housing = Housing.create(enedis_usage_point_id: @usage_point_id)  #!! voir pourquoi ça ne semble pas passer par méthode create du controller Housings !
+    @profil.housing_id = new_housing.identity_response  #!! inutile si ça passait bie dans la méthode create du controller
+    @profil.save
   end
 
   # ENEDIS ACCESS FUNCTIONS :
@@ -55,7 +62,7 @@ class EnedisConnectionsController < ApplicationController
   def get_tokens
     redirect_uri = ENV['ENEDIS_REDIRECT_URI']
     link = "#{ENV['ENEDIS_DOMAIN']}oauth2/token"
-    @code = 'WAxUNGgLlsD3xdjAvvTtILz885qroe'  #!! normalement à récupérer avec consent juste avant
+    @code = '1i4Fl3rVoCDWq9ZIOwZHIXjLFkcwbR'  #!! normalement à récupérer avec consent juste avant
     # response = RestClient.post link, params, headers
     response = RestClient::Request.execute(
       method: 'POST',
