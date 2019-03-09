@@ -5,7 +5,9 @@ class ProfilsController < ApplicationController
   def edit
     @enedis_client_id = ENV['ENEDIS_CLIENT_ID']
     @enedis_client_secret = ENV['ENEDIS_CLIENT_SECRET']
-    @housing = Housing.find(@profil.housing_id)
+    if @onboarding_step >= 2
+      @housing = Housing.find(@profil.housing_id)
+    end
   end
 
   def update
