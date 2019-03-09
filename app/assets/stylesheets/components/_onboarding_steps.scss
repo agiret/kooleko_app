@@ -21,6 +21,7 @@
 
 // Avec li et progressbar :
 .progressbar {
+  padding-left: 0px;
   counter-reset: step;
   color: $my-fresh;
   margin-bottom: 90px;
