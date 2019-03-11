@@ -22,4 +22,10 @@ i {
 .devise-links{
   padding-top: 10px;
   // font-size: 14px;
+  a {
+   color: $hight-gray;
+  }
+  a:hover {
+    color: $my-fresh;
+  }
 }
