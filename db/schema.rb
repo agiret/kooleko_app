@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2019_02_12_100857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "housing_id"
-    t.integer "onboarding_step", default: 1
+    t.integer "onboarding_step"
     t.integer "enedis_state"
     t.string "enedis_access_token", default: "", null: false
     t.string "enedis_refresh_token", default: "", null: false

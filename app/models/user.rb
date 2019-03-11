@@ -8,6 +8,13 @@ class User < ApplicationRecord
 
   validates :email, presence: true
 
+  after_initialize :init
+
+  def init
+    # Set the default value to 1 only if it's nil
+    self.onboarding_step ||= 1
+  end
+
   # Rafraîchissement du token si expiré :
   # (exemple de code copié sur : https://stackoverflow.com/questions/21707734/refresh-token-using-omniauth-oauth2-in-rails-application/21879758)
   # def refresh_token_if_expired
