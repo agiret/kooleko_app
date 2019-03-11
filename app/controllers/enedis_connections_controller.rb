@@ -30,8 +30,9 @@ class EnedisConnectionsController < ApplicationController
   def create_housing
     @usage_point_id = "12345678901234"  #!! A récupérer dans le consent
     new_housing = Housing.create(enedis_usage_point_id: @usage_point_id)  #!! voir pourquoi ça ne semble pas passer par méthode create du controller Housings !
-    @profil.housing_id = new_housing.identity_response  #!! inutile si ça passait bie dans la méthode create du controller
+    @profil.housing_id = new_housing.id  #!! inutile si ça passait bien dans la méthode create du controller
     @profil.save
+    # redirect_to housings_path(enedis_usage_point_id: @usage_point_id), method: :post
   end
 
   # ENEDIS ACCESS FUNCTIONS :
