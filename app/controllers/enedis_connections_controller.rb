@@ -16,7 +16,19 @@ class EnedisConnectionsController < ApplicationController
     redirect_to  edit_profil_path(@profil)
   end
   def courbe_conso
-    get_courbe_conso
+    @housing = Housing.find(@profil.housing_id)
+    @today = DateTime.now()
+    if @profil.onboarding_step >= 2 #&& last_data_conso exist?
+      # last_data_time = récupérer horodatage du dernier enregistrement associé à ce logement
+      # (prévoir le cas où il n'y en existe pas encore)
+      # start_date = last_data_time.strftime("%Y-%m-%d")
+      # end_date = min(last_data_time + 7.days, @today.beginning_of_day - 1.days)
+    else
+      start_date = (@today.beginning_of_day - 8.days).strftime("%Y-%m-%d")
+      end_date = (@today.beginning_of_day - 1.days).strftime("%Y-%m-%d")
+    end
+    # prévoir cas où start_date = end_date
+    get_courbe_conso(start_date, end_date)
   end
 
   private
@@ -223,7 +235,7 @@ class EnedisConnectionsController < ApplicationController
     @housing.save
     puts '---> Adresse du logement récupérée'
   end
-  def get_courbe_conso
+  def get_courbe_conso(start_date, end_date)
     refresh_tokens
     @housing = Housing.find(@profil.housing_id)
     @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
@@ -237,8 +249,8 @@ class EnedisConnectionsController < ApplicationController
         authorization: "Bearer #{@profil.enedis_access_token}",
         params: {
           usage_point_id: "#{@housing.enedis_usage_point_id}",
-          start: '2018-01-01',
-          end: '2018-02-01'
+          start: start_date,
+          end: end_date
           }
       }
     )

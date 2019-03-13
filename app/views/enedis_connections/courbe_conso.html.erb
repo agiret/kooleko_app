@@ -1,7 +1,7 @@
 <h1>EnedisConnections#courbe_conso</h1>
 <p>Find me in app/views/enedis_connections/courbe_conso.html.erb</p>
 
-<p>Période : du <%= @data_start %> au <%= @data_end %></p>
+<h3>Période : du <%= @data_start.strftime("%Y-%m-%d") %> au <%= @data_end.strftime("%Y-%m-%d") %></h3>
 
 <!-- Interval de temps entre chaque donnée de mesure -->
 <% interval = 1800.seconds %>
@@ -12,4 +12,3 @@
   <p><%= time %> : <%= data['value'] %> W</p>
   <% time = time + interval %>
 <% end %>
-<%= @data_response %>
