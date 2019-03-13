@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_12_100857) do
+ActiveRecord::Schema.define(version: 2019_03_13_154528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 2019_02_12_100857) do
     t.string "address_country"
   end
 
+  create_table "powers", force: :cascade do |t|
+    t.bigint "housing_id"
+    t.datetime "power_time"
+    t.integer "interval"
+    t.integer "power"
+    t.string "tariff_option"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["housing_id"], name: "index_powers_on_housing_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -69,5 +80,6 @@ ActiveRecord::Schema.define(version: 2019_02_12_100857) do
   end
 
   add_foreign_key "enedis_data", "housings"
+  add_foreign_key "powers", "housings"
   add_foreign_key "users", "housings"
 end
