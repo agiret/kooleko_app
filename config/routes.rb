@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'connect', to: 'enedis_connections#connect', as: :connect
+  get 'courbe_conso', to: 'enedis_connections#courbe_conso', as: :courbe_conso
   devise_for :users
   root to: 'pages#home'
   resources :housings

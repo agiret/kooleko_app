@@ -1,6 +1,6 @@
 class EnedisConnectionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_profil, :set_keys, only: [:connect]
+  before_action :set_profil, :set_keys, only: [:connect, :courbe_conso]
 
   def connect
     # consent
@@ -14,6 +14,9 @@ class EnedisConnectionsController < ApplicationController
     get_address         # Adresse du logement
     @profil.update(onboarding_step: 2)
     redirect_to  edit_profil_path(@profil)
+  end
+  def courbe_conso
+    get_courbe_conso
   end
 
   private
@@ -219,5 +222,30 @@ class EnedisConnectionsController < ApplicationController
     @housing.address_country = @address_country
     @housing.save
     puts '---> Adresse du logement récupérée'
+  end
+  def get_courbe_conso
+    refresh_tokens
+    @housing = Housing.find(@profil.housing_id)
+    @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
+
+    link = "https://gw.hml.api.enedis.fr/v3/metering_data/consumption_load_curve"
+    response = RestClient::Request.execute(
+      method: 'GET',
+      url: link,
+      headers: {
+        accept: 'application/json',
+        authorization: "Bearer #{@profil.enedis_access_token}",
+        params: {
+          usage_point_id: "#{@housing.enedis_usage_point_id}",
+          start: '2018-01-01',
+          end: '2018-02-01'
+          }
+      }
+    )
+    data_response = JSON.parse(response)
+    # Récupération des données :
+    @data_start = DateTime.parse(data_response['usage_point'][0]['meter_reading']['start'])
+    @data_end = DateTime.parse(data_response['usage_point'][0]['meter_reading']['end'])
+    @data_response = data_response['usage_point'][0]['meter_reading']['interval_reading']
   end
 end

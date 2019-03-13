@@ -3,5 +3,9 @@
   <p>Hello <%= current_user.email %> !</p>
   <p>onboarding_step : <%= @onboarding_step %></p>
   <h1>Tableau de bord à créer</h1>
+  <h2>Tests des fonctions</h2>
+  <%= link_to courbe_conso_path, class: "btn btn-primary"  do %>
+    <%= "Récupérer courbe de conso" %>
+  <% end %>
 </div>
 <!-- Tableau de bord -->
