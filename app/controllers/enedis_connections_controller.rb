@@ -22,13 +22,10 @@ class EnedisConnectionsController < ApplicationController
     last_power = Power.where(housing_id: @housing.id).last
 
     if @profil.onboarding_step >= 2 &&! last_power.nil?
-      start_date = '2018-01-01'
-      end_date = '2018-01-02'
-      # last_data_time = récupérer horodatage du dernier enregistrement associé à ce logement
+      # récupérer horodatage du dernier enregistrement
       @last_power_date = last_power.power_time.beginning_of_day
       start_date = (@last_power_date + 1.days)
       end_date = [@last_power_date + 7.days, @today.beginning_of_day - 1.days].min
-      raise
     else
       start_date = (@today.beginning_of_day - 8.days)
       end_date = (@today.beginning_of_day - 1.days)
@@ -267,6 +264,7 @@ class EnedisConnectionsController < ApplicationController
 
     interval = 1800.seconds
     time = @data_start  # format Datetime
+    records = 0
     @data_response.each do |data|
       data = Power.new(
         housing_id: @housing.id,
@@ -277,8 +275,9 @@ class EnedisConnectionsController < ApplicationController
         )
       data.save
       time += interval
+      records += 1
     end
-
+    puts "--> #{records} enregistrements effectués !"
 
   end
 end
