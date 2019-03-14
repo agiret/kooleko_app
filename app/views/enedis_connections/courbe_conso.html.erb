@@ -3,6 +3,7 @@
 
 <h3>Période : du <%= @data_start.strftime("%Y-%m-%d") %> au <%= @data_end.strftime("%Y-%m-%d") %></h3>
 
+<p>Dernier jour enregistré : <%= @last_power_date %></p>
 <!-- Interval de temps entre chaque donnée de mesure -->
 <% interval = 1800.seconds %>
 <!-- Initialisation de l'horodatage de la première donnée de mesure -->

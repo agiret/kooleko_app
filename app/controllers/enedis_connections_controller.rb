@@ -18,17 +18,23 @@ class EnedisConnectionsController < ApplicationController
   def courbe_conso
     @housing = Housing.find(@profil.housing_id)
     @today = DateTime.now()
-    if @profil.onboarding_step >= 2 #&& last_data_conso exist?
+    # On va récupérer le dernier enregistrement de power associé à ce logement
+    last_power = Power.where(housing_id: @housing.id).last
+
+    if @profil.onboarding_step >= 2 &&! last_power.nil?
+      start_date = '2018-01-01'
+      end_date = '2018-01-02'
       # last_data_time = récupérer horodatage du dernier enregistrement associé à ce logement
-      # (prévoir le cas où il n'y en existe pas encore)
-      # start_date = last_data_time.strftime("%Y-%m-%d")
-      # end_date = min(last_data_time + 7.days, @today.beginning_of_day - 1.days)
+      @last_power_date = last_power.power_time.beginning_of_day
+      start_date = (@last_power_date + 1.days)
+      end_date = [@last_power_date + 7.days, @today.beginning_of_day - 1.days].min
+      raise
     else
-      start_date = (@today.beginning_of_day - 8.days).strftime("%Y-%m-%d")
-      end_date = (@today.beginning_of_day - 1.days).strftime("%Y-%m-%d")
+      start_date = (@today.beginning_of_day - 8.days)
+      end_date = (@today.beginning_of_day - 1.days)
     end
-    # prévoir cas où start_date = end_date
-    get_courbe_conso(start_date, end_date)
+    # prévoir cas où start_date = end_date :
+    get_courbe_conso(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")) if start_date < end_date
   end
 
   private
@@ -239,7 +245,6 @@ class EnedisConnectionsController < ApplicationController
     refresh_tokens
     @housing = Housing.find(@profil.housing_id)
     @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
-
     link = "https://gw.hml.api.enedis.fr/v3/metering_data/consumption_load_curve"
     response = RestClient::Request.execute(
       method: 'GET',
@@ -259,5 +264,21 @@ class EnedisConnectionsController < ApplicationController
     @data_start = DateTime.parse(data_response['usage_point'][0]['meter_reading']['start'])
     @data_end = DateTime.parse(data_response['usage_point'][0]['meter_reading']['end'])
     @data_response = data_response['usage_point'][0]['meter_reading']['interval_reading']
+
+    interval = 1800.seconds
+    time = @data_start  # format Datetime
+    @data_response.each do |data|
+      data = Power.new(
+        housing_id: @housing.id,
+        power_time: time,
+        interval: interval,
+        power: data['value'],
+        tariff_option: ""
+        )
+      data.save
+      time += interval
+    end
+
+
   end
 end
