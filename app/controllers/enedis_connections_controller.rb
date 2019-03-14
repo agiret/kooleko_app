@@ -12,10 +12,12 @@ class EnedisConnectionsController < ApplicationController
     get_client_infos    # N° de téléphone
     contract_datas      # Données de ligne ENEDIS
     get_address         # Adresse du logement
+    courbe_conso        # Récupération des consos /30min des 7 jours précédents
     @profil.update(onboarding_step: 2)
     redirect_to  edit_profil_path(@profil)
   end
   def courbe_conso
+    puts '---> Récupération des conos ?'
     @housing = Housing.find(@profil.housing_id)
     @today = DateTime.now()
     # On va récupérer le dernier enregistrement de power associé à ce logement
@@ -23,10 +25,12 @@ class EnedisConnectionsController < ApplicationController
 
     if @profil.onboarding_step >= 2 &&! last_power.nil?
       # récupérer horodatage du dernier enregistrement
+      puts '---> Le logement associé à cet utilisateur a déjà des données de conos'
       @last_power_date = last_power.power_time.beginning_of_day
       start_date = (@last_power_date + 1.days)
       end_date = [@last_power_date + 7.days, @today.beginning_of_day - 1.days].min
     else
+      puts '---> Pas encore de données de consos pour ce logement'
       start_date = (@today.beginning_of_day - 8.days)
       end_date = (@today.beginning_of_day - 1.days)
     end
@@ -239,6 +243,8 @@ class EnedisConnectionsController < ApplicationController
     puts '---> Adresse du logement récupérée'
   end
   def get_courbe_conso(start_date, end_date)
+    puts "Récupération des consos du #{start_date} au #{end_date}..."
+    puts "....."
     refresh_tokens
     @housing = Housing.find(@profil.housing_id)
     @usage_point_id = @housing.enedis_usage_point_id  #!! @profil.housing.enedis_usage_point_id ne fonctionne pas
@@ -266,6 +272,7 @@ class EnedisConnectionsController < ApplicationController
     time = @data_start  # format Datetime
     records = 0
     @data_response.each do |data|
+      # tariff_option(data) = ?? (appeler une méthdoe dédiée qui renvoir la réponse à chaque tour)
       data = Power.new(
         housing_id: @housing.id,
         power_time: time,
@@ -277,7 +284,13 @@ class EnedisConnectionsController < ApplicationController
       time += interval
       records += 1
     end
-    puts "--> #{records} enregistrements effectués !"
+    puts "---> #{records} enregistrements effectués !"
 
+  end
+  def tariff_option(data)
+    # Si distri_tarif == "ST" => return "ST"
+    # Si distri_tarif == "DT" =>
+      # Récupérer offpeak_hours (au format "23h-7h" ; et quand il y'en a 2 ??)
+      # Tester dans quelle plage se situe 'data'
   end
 end
