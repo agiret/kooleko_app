@@ -9,6 +9,13 @@
   # -> kooleko_app
 #-------------------------------------------------------------------------------
 
+
+## INFOS :
+# --------
+# seed non fonctionnel pour le moment :
+# --> voir une fois la fonction authorize ok avec enedis
+
+
 # Nettoyage :
 puts 'Suppression des EnedisDatum...'
 # EnedisDatum.destroy_all
@@ -19,11 +26,11 @@ puts 'Suppression des Housings...'
 puts 'Suppression des Users...'
 # User.destroy_all
 
-# Création des users :
-# ----------------------
-# client 0 du bac à sable Enedis :
+# Création des utilisateurs (User) :
+# ----------------------------------
+# client_0 du bac à sable Enedis :
 client0_code = "1MKr2ZD5sYhxXlvvWGkBQ7pjxUiEmQ"
-client0_usage_point_id = "22516914714270"  #!! A récupérer dans le consent
+client0_usage_point_id = "12345678901234"  #!! A récupérer dans le consent
 
 client0 = User.create!(
   email: "client0@gmail.com",
@@ -35,11 +42,49 @@ client0 = User.create!(
   phone: "0641415265"
   )
 
+# client_3 du bac à sable Enedis :
+client3_code = "1MKr2ZD5sYhxXlvvWGkBQ7pjxUiEmQ"
+client3_usage_point_id = "22516914714270"  #!! A récupérer dans le consent
+
+client3 = User.create!(
+  email: "client3@gmail.com",
+  password: "azerty",
+  onboarding_step: 3,
+  enedis_state: 20190001,
+  firstname: "Sandra",
+  lastname: "Thi",
+  phone: "07 12 45 32 87"
+  )
+
+# user_step1 :
+puts 'Création du user_step1...'
+user_step1 = User.create!(
+  email: "user_step1@gmail.com",
+  password: "azerty"
+  )
+
+# Création des logements (Housing) :
+# --------------------------------
+
 client0_housing = Housing.create!(
   surface_area: 102,
   heat_system: "",
   hot_water_system: "",
   enedis_usage_point_id: client0_usage_point_id,
+  address_street: "4 rue Voltaire",
+  address_locality: "Tourtouze",
+  address_postal_code: "11000",
+  address_insee_code: "11069",
+  address_city: "Carcassonne",
+  address_country: "France"
+  )
+client0.housing_id = client0_housing.id
+
+client3_housing = Housing.create!(
+  surface_area: 98,
+  heat_system: "",
+  hot_water_system: "",
+  enedis_usage_point_id: client3_usage_point_id,
   address_street: "12, rue d'Austerlitz",
   address_locality: "Tourtouze",
   address_postal_code: "32400",
@@ -47,7 +92,11 @@ client0_housing = Housing.create!(
   address_city: "Maulichères",
   address_country: "France"
   )
-client0.housing_id = client0_housing.id
+client3.housing_id = client3_housing.id
+
+
+# Création des data enedis (EnedisDatum) :
+# ---------------------------------------
 
 client0_housing_enedis_datum = EnedisDatum.create!(
   housing_id: client0_housing.id,
@@ -63,20 +112,8 @@ client0_housing_enedis_datum = EnedisDatum.create!(
   contract_type: ""
   )
 
+# Création des données de consos (Power) :
+# ---------------------------------------
+# à créer manuellement avec le bouton sur Home
 
-# !!!!!!!!! à continuer....
 
-# client0_housing_powers = Power.create!(
-#   housing_id: client0_housing.id,
-#   power_time: Tue, 19 Mar 2019 00:30:00 UTC +00:00,
-#   interval: 1800,
-#   power: 1485,
-#   tariff_option: "HC"
-#   )
-
-# user_step1 :
-puts 'Création du user_step1...'
-user_step1 = User.create!(
-  email: "user_step1@gmail.com",
-  password: "azerty"
-  )

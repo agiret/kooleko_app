@@ -10,6 +10,7 @@ class PagesController < ApplicationController
       elsif  @onboarding_step == 2  # Formulaire de saisie des infos compélmentaires
         redirect_to edit_profil_path(current_user)
       # elsif @onboarding_step == 3   # Tableau de bord
+
       end
     end
   end
