@@ -17,7 +17,7 @@ class EnedisConnectionsController < ApplicationController
     redirect_to  edit_profil_path(@profil)
   end
   def courbe_conso
-    puts '---> Récupération des conos ?'
+    puts '---> Récupération des consos ?'
     @housing = Housing.find(@profil.housing_id)
     @today = DateTime.now()
     # On va récupérer le dernier enregistrement de power associé à ce logement
