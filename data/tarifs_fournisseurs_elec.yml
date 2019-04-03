@@ -1,0 +1,33 @@
+fournisseur: EDF
+  option_tarifaire:
+    st: 3 kVA
+      abo:    67.04
+      kwh_st: 15.46
+    st: 6 kVA
+      abo:    100.74
+      kwh_st: 14.66
+    st: 9 kVA
+      abo:    118.74
+      kwh_st: 14.83
+    st: 12 kVA
+      abo:    137.12
+      kwh_st: 14.83
+    st: 15 kVA
+      abo:    155.63
+      kwh_st: 14.83
+    dt: 6 kVA
+      abo:    114.42
+      kwh_hp: 15.93
+      kwh_hc: 12.52
+    dt: 9 kVA
+      abo:    140.65
+      kwh_hp: 15.93
+      kwh_hc: 12.52
+    dt: 12 kVA
+      abo:    164.74
+      kwh_hp: 15.93
+      kwh_hc: 12.52
+    dt: 15 kVA
+      abo:    187.05
+      kwh_hp: 15.93
+      kwh_hc: 12.52

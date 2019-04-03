@@ -1,5 +1,3 @@
-require 'rest-client'
-
 class Enedis
   # attr_reader :html_doc
 
