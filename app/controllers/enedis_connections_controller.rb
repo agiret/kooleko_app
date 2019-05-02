@@ -22,22 +22,30 @@ class EnedisConnectionsController < ApplicationController
     @today = DateTime.now()
     # On va récupérer le dernier enregistrement de power associé à ce logement
     last_power = Power.where(housing_id: @housing.id).last
+    # récupérer horodatage du dernier enregistrement
+    @last_power_date = last_power.power_time.beginning_of_day
+    # Boucle de récupération des data jusqu'à la veille --> gérer "trous" éventulels :
 
-    if @profil.onboarding_step >= 2 &&! last_power.nil?
-      # récupérer horodatage du dernier enregistrement
-      puts '---> Le logement associé à cet utilisateur a déjà des données de conos'
-      @last_power_date = last_power.power_time.beginning_of_day
-      @start_date = (@last_power_date + 1.days)
-      @end_date = [@last_power_date + 7.days, @today.beginning_of_day - 1.days].min
-    else
-      puts '---> Pas encore de données de consos pour ce logement'
-      @start_date = (@today.beginning_of_day - 8.days)
-      @end_date = (@today.beginning_of_day - 1.days)
+    while @last_power_date < (@today.beginning_of_day - 2.days)
+      if @profil.onboarding_step >= 2 &&! last_power.nil?
+        puts '---> Le logement associé à cet utilisateur a déjà des données de conos'
+        @start_date = (@last_power_date + 1.days)
+        @end_date = [@last_power_date + 7.days, @today.beginning_of_day - 1.days].min
+      else
+        puts '---> Pas encore de données de consos pour ce logement'
+        @start_date = (@today.beginning_of_day - 8.days)
+        @end_date = (@today.beginning_of_day - 1.days)
+      end
+      # prévoir cas où start_date = end_date :
+      # if @start_date < @end_date
+        refresh_tokens
+        @powers = Enedis.new.get_courbe_conso(@start_date.strftime("%Y-%m-%d"), @end_date.strftime("%Y-%m-%d"), @housing.id, @profil.id)
+        # Actualisation de last_power :
+        last_power = Power.where(housing_id: @housing.id).last
+        @last_power_date = last_power.power_time.beginning_of_day
+      # end
     end
-    # prévoir cas où start_date = end_date :
-    # get_courbe_conso(@start_date.strftime("%Y-%m-%d"), @end_date.strftime("%Y-%m-%d")) if @start_date < @end_date
-    refresh_tokens
-    @powers = Enedis.new.get_courbe_conso(@start_date.strftime("%Y-%m-%d"), @end_date.strftime("%Y-%m-%d"), @housing.id, @profil.id)
+
   end
 
   private

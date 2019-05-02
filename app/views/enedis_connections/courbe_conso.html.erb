@@ -1,7 +1,9 @@
 <h1>EnedisConnections#courbe_conso</h1>
 <p>Find me in app/views/enedis_connections/courbe_conso.html.erb</p>
 
-<h3>Période : du <%= @start_date.strftime("%Y-%m-%d") %> au <%= @end_date.strftime("%Y-%m-%d") %></h3>
+<% if @start_date ==! nil && @end_date ==! nil %>
+  <h3>Période : du <%= @start_date.strftime("%Y-%m-%d") %> au <%= @end_date.strftime("%Y-%m-%d") %></h3>
+<% end %>
 
 <p>Dernier jour enregistré : <%= @last_power_date %></p>
 <!-- Interval de temps entre chaque donnée de mesure -->
@@ -9,7 +11,9 @@
 <!-- Initialisation de l'horodatage de la première donnée de mesure -->
 <% time = @start_date %>
 
-<% @powers.each do |power| %>
-  <p><%= time %> : <%= power['value'] %> W</p>
-  <% time = time + interval %>
+<% if @powers ==! nil %>
+  <% @powers.each do |power| %>
+    <p><%= time %> : <%= power['value'] %> W</p>
+    <% time = time + interval %>
+  <% end %>
 <% end %>
