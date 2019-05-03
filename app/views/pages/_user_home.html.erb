@@ -2,9 +2,37 @@
 <div class="container">
   <p>Hello <%= current_user.email %> !</p>
   <p>onboarding_step : <%= @onboarding_step %></p>
-  <h1>Tableau de bord à créer</h1>
+
+  <div class="suivi panel">
+    <h2>Suivi conso</h2>
+    <div class="row text-center">
+      <div>
+        <p>Situation au <%= DateTime.now().strftime("%d/%m/%Y") %> :</p>
+      </div>
+      <div class="compteur">
+        <p>22 € / 43 €</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="compteur-details">
+        <div class="col-xs-6 text-right">
+          <p>Consommé depuis le 01/01/2019.
+          </br>(y compris la part d'abonnement associée)</p>
+        </div>
+        <div class="col-xs-6 text-left">
+          <p>Estimé pour la période du 01/01/2019 au 31/01/2019.
+          </br>(coût d'abonnement compris)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="preferences">
+
+  </div>
+
   <h2>Tests des fonctions</h2>
-  <%= link_to courbe_conso_path, class: "btn btn-primary"  do %>
+  <%= link_to courbe_conso_path, class: "btn btn-primary" do %>
     <%= "Récupérer courbe de conso" %>
   <% end %>
 </div>
