@@ -1,9 +1,8 @@
 // Import Google fonts
-@import url('https://fonts.googleapis.com/css?family=Dosis:300,400,700');
-
-// Define fonts for body and headers
-$body-font: "Dosis", "Helvetica", "sans-serif";
-$headers-font: "Dosis", "Helvetica", "sans-serif";
+// @import url('https://fonts.googleapis.com/css?family=Dosis:300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,700,900');// Define fonts for body and headers
+$body-font: "Nunito", "Helvetica", "sans-serif";
+$headers-font: "Nunito", "Helvetica", "sans-serif";
 
 // To use a font file (.woff) uncomment following lines
 // @font-face {
