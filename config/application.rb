@@ -34,5 +34,9 @@ module KoolekoApp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # To specify the locales which have to be loaded via I18n gem :
+    I18n.available_locales = [:fr]
+    config.i18n.default_locale = :fr
   end
 end

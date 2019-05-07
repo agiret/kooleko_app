@@ -18,6 +18,7 @@ gem 'uglifier'
 gem 'webpacker'
 gem 'rest-client', '~> 2.0', '>= 2.0.2'
 gem 'oauth2'
+gem 'rails-i18n', '~> 5.1' # For 5.0.x, 5.1.x and 5.2.x
 
 group :development do
   gem 'web-console', '>= 3.3.0'

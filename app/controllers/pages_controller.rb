@@ -13,8 +13,16 @@ class PagesController < ApplicationController
 
       end
 
-      @periode = DataCalc.new(@profil.housing_id).actual_monthly_conso
-      @conso = DataCalc.new(@profil.housing_id).month_conso
+      @housing = Housing.find(@profil.housing_id)
+      # Dernier enregistrement de power associé à ce logement :
+      last_power = Power.where(housing_id: @housing.id).last
+      # Horodatage du dernier enregistrement :
+      @last_power_date = last_power.power_time.beginning_of_day
+      # Premier jour du mois évalué :
+      @first_power_date = last_power.power_time.beginning_of_month
+
+      # @periode = DataCalc.new(@profil.housing_id).actual_monthly_conso
+      @conso = DataCalc.new(@profil.housing_id).month_conso(@first_power_date, @last_power_date) / 100
     end
 
   end

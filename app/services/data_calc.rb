@@ -9,13 +9,6 @@ class DataCalc
   def initialize(housing_id)
     @housing = Housing.find(housing_id)
 
-    # Dernier enregistrement de power associé à ce logement :
-    last_power = Power.where(housing_id: @housing.id).last
-    # Horodatage du dernier enregistrement :
-    @last_power_date = last_power.power_time.beginning_of_day
-    # Premier jour du mois évalué :
-    @first_power_date = last_power.power_time.beginning_of_month
-
     # Hypothèses simplifiées : tarifs en centimes d'euros
     @kwh_elec_hp_price = 14
     @kwh_elec_hc_price = 12
@@ -25,19 +18,17 @@ class DataCalc
 
   def actual_monthly_conso
 
-    return "Du #{@first_power_date} au #{@last_power_date} "
-
     # month_conso
     # estimated_month_conso
     # return "month_conso € / estimated_month_conso €"
   end
 
-  def month_conso
+  def month_conso(start_date, end_date)
     # Conso entre le dernier enregistrement (JJ/MM/YYYY) et le 01/MM/YYYY :
     # Somme des puissances relevées en HC :
     # Somme des puissances relevées en HP :
     # Somme des puissances relevées en ST :
-    powers = Power.where(housing_id: @housing.id).where("power_time >= :first_day AND power_time <= :end_day",{first_day: @first_power_date, end_day: @last_power_date + 1.days})
+    powers = Power.where(housing_id: @housing.id).where("power_time >= :start_day AND power_time <= :end_day",{start_day: start_date, end_day: end_date + 1.days})
     powers_hc = []
     powers_hp = []
     powers_st = []
@@ -62,14 +53,15 @@ class DataCalc
     # return "HC : #{(month_conso_hc / 100).round} € - HP : #{(month_conso_hp / 100).round} € - ST : #{month_conso_st / 100} €"
 
     # Part de l'abonnement élec :
-    nb_days = ((@last_power_date + 1.days) - @first_power_date)
+    nb_days = ((end_date.to_date + 1.days) - start_date.to_date).to_i
     abo_ratio = @elec_annual_abo * nb_days / 365
 
     month_conso = month_conso_hc + month_conso_hp + month_conso_st + abo_ratio
 
-    return nb_days
+    # return (@last_power_date.to_date + 1.days)
     # return nb_days
-    # return abo_ratio/100
+    # return abo_ratio / 100.0
+    return month_conso
   end
 
 end
