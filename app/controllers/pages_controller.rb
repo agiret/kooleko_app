@@ -13,7 +13,6 @@ class PagesController < ApplicationController
 
       end
 
-      @test = DataCalc.new(@profil.housing_id).test()
       @periode = DataCalc.new(@profil.housing_id).actual_monthly_conso
       @conso = DataCalc.new(@profil.housing_id).month_conso
     end
