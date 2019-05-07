@@ -12,6 +12,11 @@ class PagesController < ApplicationController
       # elsif @onboarding_step == 3   # Tableau de bord
 
       end
+
+      @test = DataCalc.new(@profil.housing_id).test()
+      @periode = DataCalc.new(@profil.housing_id).actual_monthly_conso
+      @conso = DataCalc.new(@profil.housing_id).month_conso
     end
+
   end
 end

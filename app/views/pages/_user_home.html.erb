@@ -35,5 +35,11 @@
   <%= link_to courbe_conso_path, class: "btn btn-primary" do %>
     <%= "Récupérer courbe de conso" %>
   <% end %>
+  <p><%= @test %></p>
+  <p><%= @periode %></p>
+  <p><%= @conso %></p>
+  <% @conso.each do |power| %>
+    <p><%= power.power_time %> <%= power.power %></p>
+  <% end %>
 </div>
 <!-- Tableau de bord -->
