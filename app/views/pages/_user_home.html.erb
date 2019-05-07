@@ -10,7 +10,7 @@
         <p>Situation au <%= I18n.l(@last_power_date, format: "%e %B %Y") %> :</p>
       </div>
       <div class="compteur">
-        <p>22 € / 43 €</p>
+        <p><%= @conso.round %> € / 43 €</p>
       </div>
     </div>
     <div class="row">
