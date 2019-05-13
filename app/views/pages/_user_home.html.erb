@@ -10,7 +10,7 @@
         <p>Situation au <%= I18n.l(@last_power_date, format: "%e %B %Y") %> :</p>
       </div>
       <div class="compteur">
-        <p><%= @conso.round %> € / 43 €</p>
+        <p><%= @conso.round %> € / <%= @estimated_month_conso.round %> €</p>
       </div>
     </div>
     <div class="row">
@@ -35,6 +35,5 @@
   <%= link_to courbe_conso_path, class: "btn btn-primary" do %>
     <%= "Récupérer courbe de conso" %>
   <% end %>
-  <p><%="Consommé du #{@first_power_date.to_date} au #{@last_power_date.to_date} : #{@conso.round} €"%></p>
 </div>
 <!-- Tableau de bord -->

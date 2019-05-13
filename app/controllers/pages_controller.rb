@@ -22,7 +22,9 @@ class PagesController < ApplicationController
       @first_power_date = last_power.power_time.beginning_of_month
 
       # @periode = DataCalc.new(@profil.housing_id).actual_monthly_conso
-      @conso = DataCalc.new(@profil.housing_id).month_conso(@first_power_date, @last_power_date) / 100
+      month_conso = DataCalc.new(@profil.housing_id).month_conso(@first_power_date, @last_power_date)
+      @conso = month_conso[:month_conso] / 100
+      @estimated_month_conso = month_conso[:estimated_month_conso] / 100
     end
 
   end
